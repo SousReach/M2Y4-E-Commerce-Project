@@ -7,9 +7,9 @@ const Product = require('./models/Product');
 const categories = [
   { name: 'T-Shirts', image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400' },
   { name: 'Pants', image: 'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=400' },
-  { name: 'Dresses', image: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400' },
+  { name: 'Dresses', image: '' },
   { name: 'Jackets', image: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400' },
-  { name: 'Shoes', image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400' },
+  { name: 'Shoes', image: '' },
   { name: 'Accessories', image: 'https://images.unsplash.com/photo-1523170335258-f5ed11844a49?w=400' },
 ];
 
