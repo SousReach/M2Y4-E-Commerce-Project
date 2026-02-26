@@ -36,7 +36,7 @@ const seedDB = async () => {
       {
         name: 'Classic White Tee',
         description: 'A timeless white cotton t-shirt. Soft, breathable, and perfect for everyday wear.',
-        price: 24.99,
+        price: 1.00,
         images: ['https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600'],
         category: catMap['T-Shirts'],
         sizes: ['S', 'M', 'L', 'XL'],
@@ -47,7 +47,7 @@ const seedDB = async () => {
       {
         name: 'Oversized Graphic Tee',
         description: 'Relaxed fit t-shirt with a modern graphic print. Made from 100% organic cotton.',
-        price: 34.99,
+        price: 1.00,
         images: ['https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=600'],
         category: catMap['T-Shirts'],
         sizes: ['M', 'L', 'XL'],
@@ -58,7 +58,7 @@ const seedDB = async () => {
       {
         name: 'Striped Crew Neck',
         description: 'Casual striped t-shirt with a comfortable crew neck. Great for layering.',
-        price: 29.99,
+        price: 1.00,
         images: ['https://images.unsplash.com/photo-1627225924765-552d49cf47ad?w=600'],
         category: catMap['T-Shirts'],
         sizes: ['S', 'M', 'L'],
@@ -71,23 +71,12 @@ const seedDB = async () => {
       {
         name: 'Slim Fit Chinos',
         description: 'Modern slim-fit chino pants with a comfortable stretch fabric.',
-        price: 49.99,
+        price: 1.00,
         images: ['https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=600'],
         category: catMap['Pants'],
         sizes: ['28', '30', '32', '34', '36'],
         colors: ['Khaki', 'Navy', 'Black'],
         stock: 30,
-        isFeatured: true,
-      },
-      {
-        name: 'Classic Denim Jeans',
-        description: 'Premium straight-fit denim jeans with a vintage wash finish.',
-        price: 59.99,
-        images: ['https://images.unsplash.com/photo-1542272604-787c3835535d?w=600'],
-        category: catMap['Pants'],
-        sizes: ['28', '30', '32', '34'],
-        colors: ['Blue', 'Dark Blue', 'Black'],
-        stock: 25,
         isFeatured: true,
       },
 

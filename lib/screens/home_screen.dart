@@ -94,7 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     Consumer<AuthProvider>(
                       builder: (context, auth, _) => Text(
-                        'Hi, ${auth.user?.name ?? 'there'} 👋',
+                        'Hi, ${auth.user?.name ?? 'there'} ',
                         style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w600,
