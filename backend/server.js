@@ -22,7 +22,7 @@ app.use('/api/categories', categoryRoutes);
 app.use('/api/cart', cartRoutes);
 app.use('/api/orders', orderRoutes);
 
-// Health check
+// Health check on the API
 app.get('/', (req, res) => {
   res.json({ message: 'E-Commerce API is running' });
 });
