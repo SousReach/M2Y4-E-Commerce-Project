@@ -36,7 +36,7 @@ router.get('/featured', async (req, res) => {
   }
 });
 
-// Get products by category
+// Get products by the category
 router.get('/category/:categoryId', async (req, res) => {
   try {
     const products = await Product.find({ category: req.params.categoryId }).populate('category', 'name');
