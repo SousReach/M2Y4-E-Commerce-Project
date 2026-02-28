@@ -35,7 +35,7 @@ const seedDB = async () => {
       // T-Shirts
       {
         name: 'Classic White Tee',
-        description: 'A timeless white cotton t-shirt. Soft, breathable, and perfect for everyday wear.',
+        description: '',
         price: 1.00,
         images: ['https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600'],
         category: catMap['T-Shirts'],
@@ -46,7 +46,7 @@ const seedDB = async () => {
       },
       {
         name: 'Oversized Graphic Tee',
-        description: 'Relaxed fit t-shirt with a modern graphic print. Made from 100% organic cotton.',
+        description: '',
         price: 1.00,
         images: ['https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=600'],
         category: catMap['T-Shirts'],
@@ -57,7 +57,7 @@ const seedDB = async () => {
       },
       {
         name: 'Striped Crew Neck',
-        description: 'Casual striped t-shirt with a comfortable crew neck. Great for layering.',
+        description: '',
         price: 1.00,
         images: ['https://images.unsplash.com/photo-1627225924765-552d49cf47ad?w=600'],
         category: catMap['T-Shirts'],
