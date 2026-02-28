@@ -70,7 +70,7 @@ const seedDB = async () => {
       // Pants
       {
         name: 'Slim Fit Chinos',
-        description: 'Modern slim-fit chino pants with a comfortable stretch fabric.',
+        description: '',
         price: 1.00,
         images: ['https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=600'],
         category: catMap['Pants'],
