@@ -30,9 +30,8 @@ const seedDB = async () => {
     const catMap = {};
     createdCategories.forEach((c) => (catMap[c.name] = c._id));
 
-    // Insert products
+    // Insert products area
     const products = [
-      // T-Shirts
       {
         name: 'Classic White Tee',
         description: '',
@@ -66,8 +65,6 @@ const seedDB = async () => {
         stock: 40,
         isFeatured: false,
       },
-
-      // Pants
       {
         name: 'Slim Fit Chinos',
         description: '',
