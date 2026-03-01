@@ -60,7 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
               children: [
                 const SizedBox(height: 60),
                 const Text(
-                  'Welcome\nBack',
+                  'RUPP STORE',
                   style: TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.w700,

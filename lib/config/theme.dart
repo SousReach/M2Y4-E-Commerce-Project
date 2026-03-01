@@ -7,8 +7,8 @@ class AppTheme {
   static const Color accent = Color(0xFFC67C5B);
   static const Color background = Color(0xFFF8F8F8);
   static const Color surface = Color(0xFFFFFFFF);
-  static const Color textPrimary = Color(0xFF1A1A1A);
-  static const Color textSecondary = Color(0xFF757575);
+  static const Color textPrimary = Color.fromARGB(255, 0, 0, 0);
+  static const Color textSecondary = Color.fromARGB(255, 70, 70, 70);
   static const Color divider = Color(0xFFE0E0E0);
   static const Color error = Color(0xFFD32F2F);
   static const Color success = Color(0xFF388E3C);
