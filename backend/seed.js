@@ -34,7 +34,7 @@ const seedDB = async () => {
     const products = [
       {
         name: 'Classic White Tee',
-        description: '',
+        description: 'Black',
         price: 1.00,
         images: ['https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600'],
         category: catMap['T-Shirts'],
@@ -45,7 +45,7 @@ const seedDB = async () => {
       },
       {
         name: 'Oversized Graphic Tee',
-        description: '',
+        description: 'Black',
         price: 1.00,
         images: ['https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=600'],
         category: catMap['T-Shirts'],
@@ -56,7 +56,7 @@ const seedDB = async () => {
       },
       {
         name: 'Striped Crew Neck',
-        description: '',
+        description: 'Black',
         price: 1.00,
         images: ['https://images.unsplash.com/photo-1627225924765-552d49cf47ad?w=600'],
         category: catMap['T-Shirts'],
@@ -67,7 +67,7 @@ const seedDB = async () => {
       },
       {
         name: 'Slim Fit Chinos',
-        description: '',
+        description: 'Black',
         price: 1.00,
         images: ['https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=600'],
         category: catMap['Pants'],
