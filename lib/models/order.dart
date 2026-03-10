@@ -4,6 +4,7 @@ class Order {
   final double totalPrice;
   final ShippingAddress shippingAddress;
   final String status;
+  final String paymentMethod;
   final DateTime createdAt;
 
   Order({
@@ -12,6 +13,7 @@ class Order {
     required this.totalPrice,
     required this.shippingAddress,
     this.status = 'pending',
+    this.paymentMethod = '',
     required this.createdAt,
   });
 
@@ -26,6 +28,7 @@ class Order {
       totalPrice: (json['totalPrice'] ?? 0).toDouble(),
       shippingAddress: ShippingAddress.fromJson(json['shippingAddress'] ?? {}),
       status: json['status'] ?? 'pending',
+      paymentMethod: json['paymentMethod'] ?? '',
       createdAt: DateTime.parse(
         json['createdAt'] ?? DateTime.now().toIso8601String(),
       ),

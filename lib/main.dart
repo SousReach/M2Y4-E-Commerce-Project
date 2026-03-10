@@ -14,6 +14,7 @@ import 'screens/cart_screen.dart';
 import 'screens/checkout_screen.dart';
 import 'screens/order_history_screen.dart';
 import 'screens/profile_screen.dart';
+import 'screens/payment_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -47,6 +48,7 @@ class MyApp extends StatelessWidget {
           '/checkout': (context) => const CheckoutScreen(),
           '/orders': (context) => const OrderHistoryScreen(),
           '/profile': (context) => const ProfileScreen(),
+          '/payment': (context) => const PaymentScreen(),
         },
       ),
     );
@@ -80,8 +82,6 @@ class _AuthGateState extends State<_AuthGate> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(child: CircularProgressIndicator()),
-    );
+    return const Scaffold(body: Center(child: CircularProgressIndicator()));
   }
 }

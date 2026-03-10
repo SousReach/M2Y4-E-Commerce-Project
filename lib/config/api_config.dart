@@ -29,4 +29,8 @@ class ApiConfig {
 
   // Orders
   static const String orders = '$baseUrl/orders';
+
+  // Payment (ABA PayWay KHQR)
+  static const String paymentGenerateQr = '$baseUrl/payment/generate-qr';
+  static const String paymentCheckStatus = '$baseUrl/payment/check-status';
 }

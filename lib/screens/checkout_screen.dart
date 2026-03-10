@@ -22,6 +22,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   final _phoneController = TextEditingController();
   bool _isPlacing = false;
 
+  // Payment method: 'cash' or 'aba_khqr'
+  String _paymentMethod = 'cash';
+
   @override
   void dispose() {
     _streetController.dispose();
@@ -69,44 +72,60 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     setState(() => _isPlacing = false);
 
     if (order != null) {
-      cart.clearCart();
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(Icons.check_circle, color: AppTheme.success, size: 64),
-              const SizedBox(height: 16),
-              const Text(
-                'Order Placed!',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                'Your order has been placed successfully.',
-                textAlign: TextAlign.center,
-                style: TextStyle(color: AppTheme.textSecondary),
+      final totalAmount = cart.totalPrice; // capture before clearing
+      if (_paymentMethod == 'aba_khqr') {
+        // Navigate to the ABA KHQR payment screen
+        cart.clearCart();
+        Navigator.pushReplacementNamed(
+          context,
+          '/payment',
+          arguments: {'orderId': order.id, 'amount': totalAmount},
+        );
+      } else {
+        // Cash on delivery — show success immediately
+        cart.clearCart();
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) => AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(
+                  Icons.check_circle,
+                  color: AppTheme.success,
+                  size: 64,
+                ),
+                const SizedBox(height: 16),
+                const Text(
+                  'Order Placed!',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'Your order has been placed successfully.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: AppTheme.textSecondary),
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(); // close dialog
+                  Navigator.of(
+                    context,
+                  ).pushNamedAndRemoveUntil('/home', (route) => false);
+                },
+                child: const Text('Continue Shopping'),
               ),
             ],
           ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // close dialog
-                Navigator.of(
-                  context,
-                ).pushNamedAndRemoveUntil('/home', (route) => false);
-              },
-              child: const Text('Continue Shopping'),
-            ),
-          ],
-        ),
-      );
+        );
+      }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -130,7 +149,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Order summary
+              // ── Order summary ──────────────────────────────
               const Text(
                 'Order Summary',
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
@@ -178,7 +197,27 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               ),
               const SizedBox(height: 32),
 
-              // Shipping address
+              // ── Payment method ─────────────────────────────
+              const Text(
+                'Payment Method',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+              ),
+              const SizedBox(height: 12),
+              _buildPaymentOption(
+                value: 'cash',
+                icon: Icons.money,
+                label: 'Cash on Delivery',
+              ),
+              const SizedBox(height: 8),
+              _buildPaymentOption(
+                value: 'aba_khqr',
+                icon: Icons.qr_code_2,
+                label: 'ABA KHQR',
+                subtitle: 'Pay via KHQR QR code',
+              ),
+              const SizedBox(height: 32),
+
+              // ── Shipping address ───────────────────────────
               const Text(
                 'Shipping Address',
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
@@ -214,12 +253,81 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               ),
               const SizedBox(height: 32),
               CustomButton(
-                text: 'Place Order',
+                text: _paymentMethod == 'aba_khqr'
+                    ? 'Place Order & Pay'
+                    : 'Place Order',
                 onPressed: _placeOrder,
                 isLoading: _isPlacing,
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPaymentOption({
+    required String value,
+    required IconData icon,
+    required String label,
+    String? subtitle,
+  }) {
+    final isSelected = _paymentMethod == value;
+    return InkWell(
+      borderRadius: BorderRadius.circular(12),
+      onTap: () => setState(() => _paymentMethod = value),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: isSelected ? AppTheme.primary : AppTheme.divider,
+            width: isSelected ? 1.5 : 1,
+          ),
+          color: isSelected
+              ? AppTheme.primary.withValues(alpha: 0.04)
+              : AppTheme.surface,
+        ),
+        child: Row(
+          children: [
+            Icon(
+              icon,
+              size: 24,
+              color: isSelected ? AppTheme.primary : AppTheme.textSecondary,
+            ),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    label,
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: isSelected
+                          ? AppTheme.primary
+                          : AppTheme.textPrimary,
+                    ),
+                  ),
+                  if (subtitle != null)
+                    Text(
+                      subtitle,
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: AppTheme.textSecondary,
+                      ),
+                    ),
+                ],
+              ),
+            ),
+            Radio<String>(
+              value: value,
+              groupValue: _paymentMethod,
+              onChanged: (v) => setState(() => _paymentMethod = v!),
+              activeColor: AppTheme.primary,
+            ),
+          ],
         ),
       ),
     );
