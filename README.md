@@ -21,3 +21,10 @@ Process in order to start the mobile app:
 - cd backend
 - npm start
 2. Run the command `flutter run` in the terminal.
+
+To push the code to the repository:
+- git add .
+- git commit -m "Rebuild payment screen"
+- git push
+
+
