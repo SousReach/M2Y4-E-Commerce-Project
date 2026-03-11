@@ -24,7 +24,10 @@ Process in order to start the mobile app:
 
 To push the code to the repository:
 - git add .
-- git commit -m "Rebuild payment screen"
+- git commit -m ""
 - git push
 
+To push product to the database:
+- cd backend
+- node seed.js
 
