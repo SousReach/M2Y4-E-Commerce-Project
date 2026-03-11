@@ -19,8 +19,7 @@ samples, guidance on mobile development, and a full API reference.
 Process in order to start the mobile app:
 1. Make sure that the backend server is running.
 - cd backend
-- npm start
-2. Run the command `flutter run` in the terminal.
+- npm run dev
 
 To push the code to the repository:
 - git add .
@@ -31,3 +30,5 @@ To push product to the database:
 - cd backend
 - node seed.js
 
+To run Flutter app:
+- flutter run
