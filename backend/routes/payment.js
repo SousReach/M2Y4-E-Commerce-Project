@@ -217,7 +217,7 @@ router.post('/check-status', async (req, res) => {
       headers: { 'Content-Type': 'application/json' },
     });
 
-    console.log('🔍 ABA check-status response:', JSON.stringify(response.data, null, 2));
+    console.log('ABA check-status response:', JSON.stringify(response.data, null, 2));
 
     // The API status.code '0' just means the API call succeeded.
     // The actual payment status is in data.payment_status:
