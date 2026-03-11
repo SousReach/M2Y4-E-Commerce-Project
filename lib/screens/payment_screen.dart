@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import '../config/theme.dart';
@@ -278,7 +277,6 @@ class _PaymentSuccessScreenState extends State<_PaymentSuccessScreen>
   late final AnimationController _circleController;
   late final AnimationController _checkController;
   late final AnimationController _contentController;
-  late final AnimationController _confettiController;
 
   late final Animation<double> _circleScale;
   late final Animation<double> _checkProgress;
@@ -326,12 +324,6 @@ class _PaymentSuccessScreenState extends State<_PaymentSuccessScreen>
           ),
         );
 
-    // 4 — Confetti particles
-    _confettiController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 2000),
-    );
-
     _startSequence();
   }
 
@@ -340,7 +332,6 @@ class _PaymentSuccessScreenState extends State<_PaymentSuccessScreen>
     _circleController.forward();
     await Future.delayed(const Duration(milliseconds: 400));
     _checkController.forward();
-    _confettiController.forward();
     await Future.delayed(const Duration(milliseconds: 400));
     _contentController.forward();
   }
@@ -350,7 +341,6 @@ class _PaymentSuccessScreenState extends State<_PaymentSuccessScreen>
     _circleController.dispose();
     _checkController.dispose();
     _contentController.dispose();
-    _confettiController.dispose();
     super.dispose();
   }
 
@@ -370,17 +360,6 @@ class _PaymentSuccessScreenState extends State<_PaymentSuccessScreen>
         child: SafeArea(
           child: Stack(
             children: [
-              // Confetti layer
-              AnimatedBuilder(
-                animation: _confettiController,
-                builder: (context, child) {
-                  return CustomPaint(
-                    size: MediaQuery.of(context).size,
-                    painter: _ConfettiPainter(_confettiController.value),
-                  );
-                },
-              ),
-
               // Main content
               Column(
                 children: [
@@ -478,16 +457,10 @@ class _PaymentSuccessScreenState extends State<_PaymentSuccessScreen>
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
-                              child: const Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(Icons.shopping_bag_outlined, size: 22),
-                                  SizedBox(width: 10),
-                                  Text('Continue Shopping'),
-                                ],
-                              ),
+                              child: const Text('Continue Shopping'),
                             ),
                           ),
+
                           const SizedBox(height: 32),
                         ],
                       ),
@@ -555,75 +528,4 @@ class _CheckPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_CheckPainter old) => old.progress != progress;
-}
-
-/// Draws falling confetti particles.
-class _ConfettiPainter extends CustomPainter {
-  final double progress;
-  final List<_Particle> _particles;
-
-  _ConfettiPainter(this.progress)
-    : _particles = List.generate(40, (i) => _Particle(i));
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    if (progress <= 0) return;
-
-    for (final p in _particles) {
-      final paint = Paint()
-        ..color = p.color.withValues(alpha: (1 - progress) * 0.8);
-      final x =
-          p.startX * size.width +
-          sin(progress * p.speed) * p.wobble * size.width * 0.1;
-      final y = -20 + progress * size.height * (0.6 + p.startY * 0.6);
-      final rect = Rect.fromCenter(
-        center: Offset(x, y),
-        width: p.size,
-        height: p.size * 1.4,
-      );
-      canvas.save();
-      canvas.translate(rect.center.dx, rect.center.dy);
-      canvas.rotate(progress * p.rotation);
-      canvas.translate(-rect.center.dx, -rect.center.dy);
-      canvas.drawRRect(
-        RRect.fromRectAndRadius(rect, const Radius.circular(2)),
-        paint,
-      );
-      canvas.restore();
-    }
-  }
-
-  @override
-  bool shouldRepaint(_ConfettiPainter old) => old.progress != progress;
-}
-
-class _Particle {
-  late final double startX;
-  late final double startY;
-  late final double speed;
-  late final double wobble;
-  late final double rotation;
-  late final double size;
-  late final Color color;
-
-  static final _rand = Random(42);
-  static const _colors = [
-    Colors.white,
-    Color(0xFFFFF176),
-    Color(0xFF81C784),
-    Color(0xFFA5D6A7),
-    Color(0xFFE8F5E9),
-    Color(0xFFFFEB3B),
-    Color(0xFFFF8A65),
-  ];
-
-  _Particle(int i) {
-    startX = _rand.nextDouble();
-    startY = _rand.nextDouble();
-    speed = 2 + _rand.nextDouble() * 4;
-    wobble = 1 + _rand.nextDouble() * 3;
-    rotation = _rand.nextDouble() * 10;
-    size = 4 + _rand.nextDouble() * 6;
-    color = _colors[_rand.nextInt(_colors.length)];
-  }
 }
