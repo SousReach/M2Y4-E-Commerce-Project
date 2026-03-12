@@ -248,7 +248,7 @@ router.post('/check-status', async (req, res) => {
       data: response.data?.data,
     });
   } catch (error) {
-    console.error('❌ ABA check-status error:', error.response?.data ?? error.message);
+    console.error('ABA check-status error:', error.response?.data ?? error.message);
     return res.status(500).json({ message: 'Status check failed' });
   }
 });
