@@ -181,7 +181,7 @@ router.post('/generate-qr', async (req, res) => {
       details: response.data,
     });
   } catch (error) {
-    console.error('❌ ABA generate-qr error:', error.response?.data ?? error.message);
+    console.error('ABA generate-qr error:', error.response?.data ?? error.message);
     return res.status(500).json({ message: 'Internal Server Error' });
   }
 });
