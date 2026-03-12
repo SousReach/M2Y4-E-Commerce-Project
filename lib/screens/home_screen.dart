@@ -103,7 +103,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     const SizedBox(height: 2),
                     Text(
-                      'Welcome to RUPP STORE',
+                      'Welcome to the STORE',
                       style: TextStyle(
                         fontSize: 13,
                         color: AppTheme.textSecondary,
