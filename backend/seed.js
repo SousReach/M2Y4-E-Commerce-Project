@@ -104,6 +104,30 @@ const seedDB = async () => {
         isFeatured: true,
       },
 
+      {
+        name: 'Audemars Piguet Royal Oak Perpetual Calendar Blue Ceramic',
+        description: 'Flex on the huzz with this watch.',
+        price: 1250000.00,
+        images: ['https://img.chrono24.com/images/uhren/43730272-x8wfot8qbmyvl2122z2wwirs-ExtraLarge.jpg'],
+        category: catMap['Accessories'],
+        sizes: ['28', '30', '32', '34', '36'],
+        colors: ['Blue'],
+        stock: 30,
+        isFeatured: true,
+      },
+
+      {
+        name: 'Sean Combs Leather Jacket',
+        description: 'Come to the party with this bad boy you furry gooner.',
+        price: 1250.00,
+        images: ['https://www.newamericanjackets.com/wp-content/uploads/2025/07/Sean-Diddy-Leather-Jacket.jpg'],
+        category: catMap['Jackets'],
+        sizes: ['28', '30', '32', '34', '36'],
+        colors: ['Black', 'White'],
+        stock: 30,
+        isFeatured: true,
+      },
+
     ];
 
     const createdProducts = await Product.insertMany(products);
