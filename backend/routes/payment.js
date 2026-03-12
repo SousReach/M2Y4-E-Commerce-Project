@@ -140,8 +140,8 @@ router.post('/generate-qr', async (req, res) => {
       '/payments/generate-qr',
     );
 
-    console.log('📡 Sending to:', API_BASE);
-    console.log('📦 Body:', JSON.stringify(body, null, 2));
+    console.log('Sending to:', API_BASE);
+    console.log('Body:', JSON.stringify(body, null, 2));
 
     const response = await axios.post(API_BASE, JSON.stringify(body), {
       headers: { 'Content-Type': 'application/json' },
