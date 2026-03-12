@@ -147,7 +147,7 @@ router.post('/generate-qr', async (req, res) => {
       headers: { 'Content-Type': 'application/json' },
     });
 
-    console.log('✅ ABA RAW RESPONSE:', JSON.stringify(response.data, null, 2));
+    console.log('ABA RAW RESPONSE:', JSON.stringify(response.data, null, 2));
 
     const code = response.data?.status?.code;
     if (code === '00' || code === 0 || code === '0') {
