@@ -5,12 +5,12 @@ const Category = require('./models/Category');
 const Product = require('./models/Product');
 
 const categories = [
-  { name: 'T-Shirts', image: '' },
-  { name: 'Pants', image: '' },
-  { name: 'Dresses', image: '' },
-  { name: 'Jackets', image: '' },
-  { name: 'Shoes', image: '' },
-  { name: 'Accessories', image: '' },
+  { name: 'Audemars Piguet', image: '' },
+  { name: 'Patek Philippe', image: '' },
+  { name: 'Richard Mille', image: '' },
+  { name: 'Rolex', image: '' },
+  { name: 'Omega', image: '' },
+  { name: 'Cartier', image: '' },
 ];
 
 const seedDB = async () => {
@@ -32,98 +32,62 @@ const seedDB = async () => {
 
     // Insert products area
     const products = [
-      {
-        name: 'Blazer',
-        description: 'Wear this to the party like you deserve it daddy.',
-        price: 999.99,
-        images: ['https://static01.nyt.com/images/2025/05/05/multimedia/05MET-GALA-LIVEBLOG-DIDDY-01-pqvt/05MET-GALA-LIVEBLOG-DIDDY-01-pqvt-articleLarge-v2.jpg?quality=75&auto=webp&disable=upscale'],
-        category: catMap['Dresses'],
-        sizes: ['S', 'M', 'L', 'XL'],
-        colors: ['Red', 'Black', 'Gray'],
-        stock: 50,
-        isFeatured: true,
-      },
-
-      {
-        name: 'Quarter Zip',
-        description: 'If you want to end up in the files, wear this bad boy for your island vacation.',
-        price: 150.00,
-        images: ['https://static01.nyt.com/images/2026/02/04/fashion/04epstein-clothes/04epstein-clothes-articleLarge.jpg?quality=75&auto=webp&disable=upscale'],
-        category: catMap['T-Shirts'],
-        sizes: ['28', '30', '32', '34', '36'],
-        colors: ['Navy', 'Black', 'Blue'],
-        stock: 30,
-        isFeatured: true,
-      },
-
-      {
-        name: 'KC-Hat',
-        description: 'Recommended by the best barber in the game. The best hast for the best stroker in the gang.',
-        price: 100.00,
-        images: ['https://pbs.twimg.com/media/FhIgQlsWYAA9bID.jpg'],
-        category: catMap['Accessories'],
-        sizes: ['28', '30', '32', '34', '36'],
-        colors: ['Blue', 'Black', 'White'],
-        stock: 30,
-        isFeatured: true,
-      },
-
-      {
-        name: 'Orange Hoodie',
-        description: 'Wear this if messi is the goat',
-        price: 67.00,
-        images: ['https://campaignme.com/wp-content/uploads/2022/03/talabat-_-Cristiano-Ronaldo-2.jpg'],
-        category: catMap['T-Shirts'],
-        sizes: ['28', '30', '32', '34', '36'],
-        colors: ['Orange', 'Black', 'White'],
-        stock: 30,
-        isFeatured: true,
-      },
-
-      {
-        name: 'Dior Sweater',
-        description: 'Feeling like oppa and taking penalty over dog ass club while ghosting in big games.',
-        price: 1500.00,
-        images: ['https://versus.uk.com/wp-content/uploads/2025/08/64759600f36e14ee9b88a992_267549651_304332918257098_9186883737337548800_n-800x1000-1.jpeg'],
-        category: catMap['T-Shirts'],
-        sizes: ['28', '30', '32', '34', '36'],
-        colors: ['Sand', 'Black', 'White'],
-        stock: 30,
-        isFeatured: true,
-      },
-
-      {
-        name: 'Audemars Piguet Royal Oak Perpetual Calendar 41 Skeleton Ceramic',
+            {
+        name: 'Royal Oak Perpetual Calendar 41 Skeleton Black Ceramic',
         description: 'Flex on the huzz with this watch.',
         price: 528000.00,
         images: ['https://watchlab.ae/upload/iblock/9c3/3meosh19f0ht8xvd2jw2rflm9pt3mvle.jpg'],
-        category: catMap['Accessories'],
-        sizes: ['28', '30', '32', '34', '36'],
-        colors: ['Black'],
+        category: catMap['Audemars Piguet'],
+        sizes: ['S', 'M', 'L'],
+        colors: ['Black Ceramic'],
         stock: 30,
         isFeatured: true,
       },
-
+      
       {
-        name: 'Audemars Piguet Royal Oak Perpetual Calendar Blue Ceramic',
+        name: 'Royal Oak Perpetual Calendar Blue Ceramic',
         description: 'Flex on the huzz with this watch.',
         price: 1250000.00,
         images: ['https://img.chrono24.com/images/uhren/43730272-x8wfot8qbmyvl2122z2wwirs-ExtraLarge.jpg'],
-        category: catMap['Accessories'],
-        sizes: ['28', '30', '32', '34', '36'],
-        colors: ['Blue'],
+        category: catMap['Audemars Piguet'],
+        sizes: ['S', 'M', 'L'],
+        colors: ['Blue Ceramic'],
         stock: 30,
         isFeatured: true,
       },
 
       {
-        name: 'Sean Combs Leather Jacket',
-        description: 'Come to the party with this bad boy you furry gooner.',
-        price: 1250.00,
-        images: ['https://www.newamericanjackets.com/wp-content/uploads/2025/07/Sean-Diddy-Leather-Jacket.jpg'],
-        category: catMap['Jackets'],
-        sizes: ['28', '30', '32', '34', '36'],
-        colors: ['Black', 'White'],
+        name: 'Ultra-Complication Universelle',
+        description: 'Flex on the huzz with this watch.',
+        price: 1980000.00,
+        images: ['https://img.chrono24.com/images/uhren/30991066-k38a4fu3ye23e18n1pn50s4e-ExtraLarge.jpg'],
+        category: catMap['Audemars Piguet'],
+        sizes: ['S', 'M', 'L'],
+        colors: ['Gold','Platinum','Rose Gold'],
+        stock: 30,
+        isFeatured: true,
+      },
+
+      {
+        name: 'Royal Oak Rainbow Double Balance Wheel Openworked',
+        description: 'Flex on the huzz with this watch.',
+        price: 248000.00,
+        images: ['https://img.chrono24.com/images/uhren/32729340-b48ocvb1mcj9fz41i8xg41va-ExtraLarge.jpg'],
+        category: catMap['Audemars Piguet'],
+        sizes: ['S', 'M', 'L'],
+        colors: ['White Gold','Platinum','Rose Gold'],
+        stock: 30,
+        isFeatured: true,
+      },
+
+      {
+        name: 'Royal Oak Concept MARVEL BLACK PANTHER Flying Tourbillon',
+        description: 'Flex on the huzz with this watch.',
+        price: 804000.00,
+        images: ['https://watchlab.ae/upload/iblock/287/hb1a2prwbpmlt0l0i4h3wzegotwzkzg0.jpg'],
+        category: catMap['Audemars Piguet'],
+        sizes: ['S', 'M', 'L'],
+        colors: ['Purple'],
         stock: 30,
         isFeatured: true,
       },
