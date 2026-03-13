@@ -103,7 +103,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     const SizedBox(height: 2),
                     Text(
-                      'Welcome to the STORE',
+                      'Welcome to Timeless Timepiece',
                       style: TextStyle(
                         fontSize: 13,
                         color: AppTheme.textSecondary,

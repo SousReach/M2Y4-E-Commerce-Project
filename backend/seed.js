@@ -71,7 +71,7 @@ const seedDB = async () => {
       },
 
       {
-        name: 'Royal Oak | Rainbow Double Balance Wheel Openworked',
+        name: 'Royal Oak | Rainbow Double Balance Wheel | Openworked',
         description: 'Flex on the huzz with this watch.',
         price: 248000.00,
         images: ['https://img.chrono24.com/images/uhren/32729340-b48ocvb1mcj9fz41i8xg41va-ExtraLarge.jpg'],
@@ -154,6 +154,68 @@ const seedDB = async () => {
         stock: 30,
         isFeatured: true,
       },
+
+      //Richard Mille
+      {
+        name: 'RM 052 | Skull Tourbillon | Rose Gold Limited Edition',
+        description: 'Flex on the huzz with this watch.',
+        price: 2000000.00,
+        images: ['https://img.chrono24.com/images/uhren/32469519-95y9opbuudbfkdnbuz3hees0-ExtraLarge.jpg'],
+        category: catMap['Richard Mille'],
+        sizes: ['S', 'M', 'L'],
+        colors: ['Rose Gold'],
+        stock: 30,
+        isFeatured: true,
+      },
+
+      {
+        name: 'RM 11-03 | "Last White Edition" | Automatic Flyback Chronograph',
+        description: 'Flex on the huzz with this watch.',
+        price: 550000.00,
+        images: ['https://img.chrono24.com/images/uhren/34526538-rwkxlrzkkz5v1nvrt7e20yvn-ExtraLarge.jpg'],
+        category: catMap['Richard Mille'],
+        sizes: ['S', 'M', 'L'],
+        colors: ['White Ceramic'],
+        stock: 30,
+        isFeatured: true,
+      },
+
+      {
+        name: 'RM 88 | Tourbillon | Smiley',
+        description: 'Flex on the huzz with this watch.',
+        price: 4024000.00,
+        images: ['https://img.chrono24.com/images/uhren/38350421-lapkti2gscyxa9hszl9zat2v-ExtraLarge.jpg'],
+        category: catMap['Richard Mille'],
+        sizes: ['S', 'M', 'L'],
+        colors: ['Multicolor Ceramic'],
+        stock: 30,
+        isFeatured: true,
+      },
+
+      {
+        name: 'RM 055 | Bubba Watson | White Ceramic',
+        description: 'Flex on the huzz with this watch.',
+        price: 360000.00,
+        images: ['https://img.chrono24.com/images/uhren/32833542-2vvreliatzvyaqlvr94cktro-ExtraLarge.jpg'],
+        category: catMap['Richard Mille'],
+        sizes: ['S', 'M', 'L'],
+        colors: ['White Ceramic'],
+        stock: 30,
+        isFeatured: true,
+      },
+
+      {
+        name: 'RM 57-02 | Tourbillon Carbon TPT | Sapphire Dragon',
+        description: 'Flex on the huzz with this watch.',
+        price: 120000.00,
+        images: ['https://img.chrono24.com/images/uhren/41591552-zb9feu9d8wip00qasa1biecj-ExtraLarge.jpg'],
+        category: catMap['Richard Mille'],
+        sizes: ['S', 'M', 'L'],
+        colors: ['Carbon TPT'],
+        stock: 30,
+        isFeatured: true,
+      },
+
     ];
 
     const createdProducts = await Product.insertMany(products);
