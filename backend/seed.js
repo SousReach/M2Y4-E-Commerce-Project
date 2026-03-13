@@ -5,12 +5,12 @@ const Category = require('./models/Category');
 const Product = require('./models/Product');
 
 const categories = [
-  { name: 'Audemars Piguet', image: '' },
-  { name: 'Patek Philippe', image: '' },
-  { name: 'Richard Mille', image: '' },
-  { name: 'Rolex', image: '' },
-  { name: 'Omega', image: '' },
-  { name: 'Cartier', image: '' },
+  { name: 'Audemars Piguet', image: 'https://cdn.freebiesupply.com/logos/large/2x/audemars-piguet-logo-black-and-white.png' },
+  { name: 'Patek Philippe', image: 'https://cdn.freebiesupply.com/logos/large/2x/patek-philippe-logo-black-and-white.png' },
+  { name: 'Richard Mille', image: 'https://companylogos.org/wp-content/uploads/2024/12/Richard-Mille-2001.png' },
+  { name: 'Rolex', image: 'https://cdn.freebiesupply.com/logos/large/2x/rolex-logo-black-and-white.png' },
+  { name: 'Omega', image: 'https://cdn.freebiesupply.com/logos/large/2x/omega-2-logo-png-transparent.png' },
+  { name: 'Cartier', image: 'https://cdn.freebiesupply.com/logos/large/2x/cartier-2-logo-png-transparent.png' },
 ];
 
 const seedDB = async () => {
@@ -32,8 +32,10 @@ const seedDB = async () => {
 
     // Insert products area
     const products = [
-            {
-        name: 'Royal Oak Perpetual Calendar 41 Skeleton Black Ceramic',
+
+      //Audemars Piguet
+      {
+        name: 'Royal Oak | Perpetual Calendar | 41 Skeleton | Black Ceramic',
         description: 'Flex on the huzz with this watch.',
         price: 528000.00,
         images: ['https://watchlab.ae/upload/iblock/9c3/3meosh19f0ht8xvd2jw2rflm9pt3mvle.jpg'],
@@ -45,7 +47,7 @@ const seedDB = async () => {
       },
       
       {
-        name: 'Royal Oak Perpetual Calendar Blue Ceramic',
+        name: 'Royal Oak | Perpetual Calendar | Blue Ceramic',
         description: 'Flex on the huzz with this watch.',
         price: 1250000.00,
         images: ['https://img.chrono24.com/images/uhren/43730272-x8wfot8qbmyvl2122z2wwirs-ExtraLarge.jpg'],
@@ -57,7 +59,7 @@ const seedDB = async () => {
       },
 
       {
-        name: 'Ultra-Complication Universelle',
+        name: 'Ultra-Complication | Universelle',
         description: 'Flex on the huzz with this watch.',
         price: 1980000.00,
         images: ['https://img.chrono24.com/images/uhren/30991066-k38a4fu3ye23e18n1pn50s4e-ExtraLarge.jpg'],
@@ -69,7 +71,7 @@ const seedDB = async () => {
       },
 
       {
-        name: 'Royal Oak Rainbow Double Balance Wheel Openworked',
+        name: 'Royal Oak | Rainbow Double Balance Wheel Openworked',
         description: 'Flex on the huzz with this watch.',
         price: 248000.00,
         images: ['https://img.chrono24.com/images/uhren/32729340-b48ocvb1mcj9fz41i8xg41va-ExtraLarge.jpg'],
@@ -81,7 +83,7 @@ const seedDB = async () => {
       },
 
       {
-        name: 'Royal Oak Concept MARVEL BLACK PANTHER Flying Tourbillon',
+        name: 'Royal Oak | Concept | MARVEL BLACK PANTHER | Flying Tourbillon',
         description: 'Flex on the huzz with this watch.',
         price: 804000.00,
         images: ['https://watchlab.ae/upload/iblock/287/hb1a2prwbpmlt0l0i4h3wzegotwzkzg0.jpg'],
@@ -92,6 +94,66 @@ const seedDB = async () => {
         isFeatured: true,
       },
 
+      //Patek Philippe
+      {
+        name: 'Nautilus | Tiffany & Co. Blue Dial',
+        description: 'Flex on the huzz with this watch.',
+        price: 1500000.00,
+        images: ['https://cdn2.chrono24.com/images/product/159726-9ow4vym7vlq8xxbt5m49ut9w-Large.jpg'],
+        category: catMap['Patek Philippe'],
+        sizes: ['S', 'M', 'L'],
+        colors: ['Tiffany Blue'],
+        stock: 30,
+        isFeatured: true,
+      },
+
+      {
+        name: 'Celestial Moon | Grand complication',
+        description: 'Flex on the huzz with this watch.',
+        price: 1600000.00,
+        images: ['https://img.chrono24.com/images/uhren/34252830-r6c42lvxxcdp5xtv0wwneezk-ExtraLarge.jpg'],
+        category: catMap['Patek Philippe'],
+        sizes: ['S', 'M', 'L'],
+        colors: ['Rose Gold','Platinum','Gold'],
+        stock: 30,
+        isFeatured: true,
+      },
+
+      {
+        name: 'Perpetual Calendar | Chronograph',
+        description: 'Flex on the huzz with this watch.',
+        price: 245000.00,
+        images: ['https://img.chrono24.com/images/uhren/42699417-tf6tpfgmsrbliw7xmthnbpcb-ExtraLarge.jpg'],
+        category: catMap['Patek Philippe'],
+        sizes: ['S', 'M', 'L'],
+        colors: ['Platinum','Rose Gold','White Gold'],
+        stock: 30,
+        isFeatured: true,
+      },
+
+      {
+        name: 'Nautilus',
+        description: 'Flex on the huzz with this watch.',
+        price: 120000.00,
+        images: ['https://img.chrono24.com/images/uhren/35216606-xuyiijb6865o7o7e4ts1w40p-ExtraLarge.jpg'],
+        category: catMap['Patek Philippe'],
+        sizes: ['S', 'M', 'L'],
+        colors: ['Rose Gold','Platinum','Gold','White Gold'],
+        stock: 30,
+        isFeatured: true,
+      },
+
+      {
+        name: 'Aquanaut | Luce "Rainbow" Haute Joaillerie | Minute Repeater',
+        description: 'Flex on the huzz with this watch.',
+        price: 730000.00,
+        images: ['https://img.chrono24.com/images/uhren/31744953-qv56opnnfjebla4g1smdyyre-ExtraLarge.jpg'],
+        category: catMap['Patek Philippe'],
+        sizes: ['S', 'M', 'L'],
+        colors: ['Tiffany Blue'],
+        stock: 30,
+        isFeatured: true,
+      },
     ];
 
     const createdProducts = await Product.insertMany(products);
