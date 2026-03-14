@@ -67,7 +67,7 @@ const seedDB = async () => {
         sizes: ['S', 'M', 'L'],
         colors: ['Gold','Platinum','Rose Gold'],
         stock: 30,
-        isFeatured: true,
+        isFeatured: false,
       },
 
       {
@@ -79,7 +79,7 @@ const seedDB = async () => {
         sizes: ['S', 'M', 'L'],
         colors: ['White Gold','Platinum','Rose Gold'],
         stock: 30,
-        isFeatured: true,
+        isFeatured: false,
       },
 
       {
@@ -91,7 +91,7 @@ const seedDB = async () => {
         sizes: ['S', 'M', 'L'],
         colors: ['Purple'],
         stock: 30,
-        isFeatured: true,
+        isFeatured: false,
       },
 
       //Patek Philippe
@@ -128,7 +128,7 @@ const seedDB = async () => {
         sizes: ['S', 'M', 'L'],
         colors: ['Platinum','Rose Gold','White Gold'],
         stock: 30,
-        isFeatured: true,
+        isFeatured: false,
       },
 
       {
@@ -140,7 +140,7 @@ const seedDB = async () => {
         sizes: ['S', 'M', 'L'],
         colors: ['Rose Gold','Platinum','Gold','White Gold'],
         stock: 30,
-        isFeatured: true,
+        isFeatured: false,
       },
 
       {
@@ -152,7 +152,7 @@ const seedDB = async () => {
         sizes: ['S', 'M', 'L'],
         colors: ['Tiffany Blue'],
         stock: 30,
-        isFeatured: true,
+        isFeatured: false,
       },
 
       //Richard Mille
@@ -177,7 +177,7 @@ const seedDB = async () => {
         sizes: ['S', 'M', 'L'],
         colors: ['White Ceramic'],
         stock: 30,
-        isFeatured: true,
+        isFeatured: false,
       },
 
       {
@@ -201,19 +201,80 @@ const seedDB = async () => {
         sizes: ['S', 'M', 'L'],
         colors: ['White Ceramic'],
         stock: 30,
-        isFeatured: true,
+        isFeatured: false,
       },
 
       {
         name: 'RM 57-02 | Tourbillon Carbon TPT | Sapphire Dragon',
         description: 'Flex on the huzz with this watch.',
-        price: 120000.00,
+        price: 1200000.00,
         images: ['https://img.chrono24.com/images/uhren/41591552-zb9feu9d8wip00qasa1biecj-ExtraLarge.jpg'],
         category: catMap['Richard Mille'],
         sizes: ['S', 'M', 'L'],
         colors: ['Carbon TPT'],
         stock: 30,
+        isFeatured: false,
+      },
+
+      //Rolex
+      {
+        name: 'Rolex Daytona | Rainbow Dial ',
+        description: 'Flex on the huzz with this watch.',
+        price: 700000.00,
+        images: ['https://img.chrono24.com/images/uhren/30656295-pahnrg7utiqurktjshg3hyum-ExtraLarge.jpg'],
+        category: catMap['Rolex'],
+        sizes: ['S', 'M', 'L'],
+        colors: ['Rose Gold','Platinum'],
+        stock: 30,
         isFeatured: true,
+      },
+
+      {
+        name: 'Rolex Day-Date | Meteorite Dial',
+        description: 'Flex on the huzz with this watch.',
+        price: 145000.00,
+        images: ['https://img.chrono24.com/images/uhren/36908128-sg4pghpy94jzngsj2ysppvb9-ExtraLarge.jpg'],
+        category: catMap['Rolex'],
+        sizes: ['S', 'M', 'L'],
+        colors: ['White Gold'],
+        stock: 30,
+        isFeatured: false,
+      },
+
+      {
+        name: 'Rolex Daytona | Blue Carbon | Rainbow Dial',
+        description: 'Flex on the huzz with this watch.',
+        price: 345000.00,
+        images: ['https://about-timepieces.com/wp-content/uploads/2021/02/rainbow-blue_3d_1.jpg'],
+        category: catMap['Rolex'],
+        sizes: ['S', 'M', 'L'],
+        colors: ['Blue Carbon Fiber'],
+        stock: 30,
+        isFeatured: false,
+      },
+
+      {
+        name: 'Rolex Daytona | Eye of the Tiger',
+        description: 'Flex on the huzz with this watch.',
+        price: 400000.00,
+        images: ['https://img.chrono24.com/images/uhren/26238088-guna6wtswqveb7k822cq1qdg-ExtraLarge.jpg'],
+        category: catMap['Rolex'],
+        sizes: ['S', 'M', 'L'],
+        colors: ['Gold','Rose Gold','Platinum','White Gold'],
+        stock: 30,
+        isFeatured: true,
+      },
+
+      {
+        name: 'Rolex Day-Date | Jigsaw Puzzle Dial',
+        description: 'Flex on the huzz with this watch.',
+        price: 315000.00,
+        images: ['https://img.chrono24.com/images/uhren/44399674-1q2fwtv32358nnulxgtluudy-ExtraLarge.jpg'],
+        category: catMap['Rolex'],
+        sizes: ['S', 'M', 'L'],
+        colors: ['Gold','Rose Gold','Platinum','White Gold'],
+        stock: 30,
+        isFeatured: false,
       },
 
     ];
