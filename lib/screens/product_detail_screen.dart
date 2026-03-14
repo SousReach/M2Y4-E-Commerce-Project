@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../config/theme.dart';
+import '../utils/price_formatter.dart';
 import '../providers/product_provider.dart';
 import '../providers/cart_provider.dart';
 
@@ -105,7 +106,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             const SizedBox(height: 8),
                             // Price
                             Text(
-                              '\$${product.price.toStringAsFixed(2)}',
+                              formatPrice(product.price),
                               style: const TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w700,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../models/cart_item.dart';
 import '../config/theme.dart';
+import '../utils/price_formatter.dart';
 
 class CartItemTile extends StatelessWidget {
   final CartItem item;
@@ -78,7 +79,7 @@ class CartItemTile extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '\$${item.totalPrice.toStringAsFixed(2)}',
+                      formatPrice(item.totalPrice),
                       style: const TextStyle(
                         fontWeight: FontWeight.w700,
                         fontSize: 15,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../config/theme.dart';
+import '../utils/price_formatter.dart';
 import '../providers/cart_provider.dart';
 import '../providers/order_provider.dart';
 import '../models/order.dart';
@@ -171,7 +172,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         ),
                       ),
                       Text(
-                        '\$${item.totalPrice.toStringAsFixed(2)}',
+                        formatPrice(item.totalPrice),
                         style: const TextStyle(fontWeight: FontWeight.w500),
                       ),
                     ],
@@ -187,7 +188,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                   ),
                   Text(
-                    '\$${cart.totalPrice.toStringAsFixed(2)}',
+                    formatPrice(cart.totalPrice),
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w700,

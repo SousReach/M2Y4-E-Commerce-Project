@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../config/theme.dart';
+import '../utils/price_formatter.dart';
 import '../providers/order_provider.dart';
 
 class OrderHistoryScreen extends StatefulWidget {
@@ -155,7 +156,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
                           ),
                         ),
                         Text(
-                          '\$${order.totalPrice.toStringAsFixed(2)}',
+                          formatPrice(order.totalPrice),
                           style: const TextStyle(
                             fontWeight: FontWeight.w700,
                             fontSize: 15,
