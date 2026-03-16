@@ -340,18 +340,6 @@ const seedDB = async () => {
 
       //Omega
       {
-        name: 'Speedmaster | Two Counters | Moonphase',
-        description: 'Flex on the huzz with this watch.',
-        price: 140000.00,
-        images: ['https://img.chrono24.com/images/uhren/44653015-2bweo4qbj6fxd31uygs46lar-ExtraLarge.jpg'],
-        category: catMap['Omega'],
-        sizes: ['S', 'M', 'L'],
-        colors: ['Platinum Red'],
-        stock: 30,
-        isFeatured: false,
-      },
-
-      {
         name: 'De Ville | Central Tourbillon ',
         description: 'Flex on the huzz with this watch.',
         price: 242000.00,
@@ -383,6 +371,18 @@ const seedDB = async () => {
         category: catMap['Omega'],
         sizes: ['S', 'M', 'L'],
         colors: ['White Gold'],
+        stock: 30,
+        isFeatured: false,
+      },
+
+      {
+        name: 'Speedmaster | Two Counters | Moonphase',
+        description: 'Flex on the huzz with this watch.',
+        price: 140000.00,
+        images: ['https://img.chrono24.com/images/uhren/44653015-2bweo4qbj6fxd31uygs46lar-ExtraLarge.jpg'],
+        category: catMap['Omega'],
+        sizes: ['S', 'M', 'L'],
+        colors: ['Platinum Red'],
         stock: 30,
         isFeatured: false,
       },
