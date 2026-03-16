@@ -337,6 +337,67 @@ const seedDB = async () => {
         stock: 30,
         isFeatured: false,
       },
+
+      //Omega
+      {
+        name: 'Speedmaster | Two Counters | Moonphase',
+        description: 'Flex on the huzz with this watch.',
+        price: 140000.00,
+        images: ['https://img.chrono24.com/images/uhren/44653015-2bweo4qbj6fxd31uygs46lar-ExtraLarge.jpg'],
+        category: catMap['Omega'],
+        sizes: ['S', 'M', 'L'],
+        colors: ['Platinum Red'],
+        stock: 30,
+        isFeatured: false,
+      },
+
+      {
+        name: 'De Ville | Central Tourbillon ',
+        description: 'Flex on the huzz with this watch.',
+        price: 242000.00,
+        images: ['https://img.chrono24.com/images/uhren/44661002-37ueny3f3rf6ttobcnxrit1d-ExtraLarge.jpg'],
+        category: catMap['Omega'],
+        sizes: ['S', 'M', 'L'],
+        colors: ['Gold','White Gold','Platinum','Rose Gold'],
+        stock: 30,
+        isFeatured: true,
+      },
+
+      {
+        name: 'Speedmaster Professional | Rainbow Canopus',
+        description: 'Flex on the huzz with this watch.',
+        price: 169000.00,
+        images: ['https://cdn2.chrono24.com/images/product/228214-vgj9pqc809vfq3td8f5xen8k-Large.jpg'],
+        category: catMap['Omega'],
+        sizes: ['S', 'M', 'L'],
+        colors: ['White Gold'],
+        stock: 30,
+        isFeatured: true,
+      },
+
+      {
+        name: 'Seamaster | James Bond | 60th Anniversary',
+        description: 'Flex on the huzz with this watch.',
+        price: 150000.00,
+        images: ['https://www.omegawatches.com/media/catalog/product/o/m/omega-seamaster-diver-300m-co-axial-master-chronometer-42-mm-21055422099001-watch-wrist-04041c.png'],
+        category: catMap['Omega'],
+        sizes: ['S', 'M', 'L'],
+        colors: ['White Gold'],
+        stock: 30,
+        isFeatured: false,
+      },
+
+      {
+        name: 'Seamaster | Aqua Terra | World Timer',
+        description: 'Flex on the huzz with this watch.',
+        price: 110000.00,
+        images: ['https://img.chrono24.com/images/uhren/37454441-7m5jwib0kyxu7lrzr6bfqtt8-ExtraLarge.jpg'],
+        category: catMap['Omega'],
+        sizes: ['S', 'M', 'L'],
+        colors: ['White Gold'],
+        stock: 30,
+        isFeatured: false,
+      },
     ];
 
     const createdProducts = await Product.insertMany(products);
