@@ -318,7 +318,7 @@ const seedDB = async () => {
         name: 'Cartier Santos | Diamond Bezel',
         description: 'Flex on the huzz with this watch.',
         price: 160000.00,
-        images: ['https://img.chrono24.com/images/uhren/45327402-wxs0g1tdvjj3jz9sel4q4kaf-ExtraLarge.jpg'],
+        images: ['https://img.chrono24.com/images/uhren/45266401-v7rv3cz27ptpl9hh97yaemkc-ExtraLarge.jpg'],
         category: catMap['Cartier'],
         sizes: ['S', 'M', 'L'],
         colors: ['White Gold'],
