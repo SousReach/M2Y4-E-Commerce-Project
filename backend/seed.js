@@ -277,6 +277,66 @@ const seedDB = async () => {
         isFeatured: false,
       },
 
+      //Cartier
+      {
+        name: 'Cartier Crash | Skeleton',
+        description: 'Flex on the huzz with this watch.',
+        price: 577000.00,
+        images: ['https://img.chrono24.com/images/uhren/41022556-peyp87luu66g44ysjslexkpg-ExtraLarge.jpg'],
+        category: catMap['Cartier'],
+        sizes: ['S', 'M', 'L'],
+        colors: ['Platinum'],
+        stock: 30,
+        isFeatured: true,
+      },
+
+      {
+        name: 'Cartier Crash | Paris',
+        description: 'Flex on the huzz with this watch.',
+        price: 275000.00,
+        images: ['https://img.chrono24.com/images/uhren/41093363-s210u37ay3u2c8bb55es30j1-ExtraLarge.jpg'],
+        category: catMap['Cartier'],
+        sizes: ['S', 'M', 'L'],
+        colors: ['Gold'],
+        stock: 30,
+        isFeatured: true,
+      },
+
+      {
+        name: 'Cartier Ballon Bleu | Tourbillon',
+        description: 'Flex on the huzz with this watch.',
+        price: 120000.00,
+        images: ['https://img.chrono24.com/images/uhren/44956061-f3nd828o0y3eieouo80laqqe-ExtraLarge.jpg'],
+        category: catMap['Cartier'],
+        sizes: ['S', 'M', 'L'],
+        colors: ['Rose Gold'],
+        stock: 30,
+        isFeatured: false,
+      },
+
+      {
+        name: 'Cartier Santos | Diamond Bezel',
+        description: 'Flex on the huzz with this watch.',
+        price: 160000.00,
+        images: ['https://img.chrono24.com/images/uhren/45327402-wxs0g1tdvjj3jz9sel4q4kaf-ExtraLarge.jpg'],
+        category: catMap['Cartier'],
+        sizes: ['S', 'M', 'L'],
+        colors: ['White Gold'],
+        stock: 30,
+        isFeatured: false,
+      },
+
+      {
+        name: 'Cartier Tank | Asymetrique | Skeleton',
+        description: 'Flex on the huzz with this watch.',
+        price: 120000.00,
+        images: ['https://img.chrono24.com/images/uhren/44705034-r4wfv3bafuaebyfchy4n1pv2-ExtraLarge.jpg'],
+        category: catMap['Cartier'],
+        sizes: ['S', 'M', 'L'],
+        colors: ['White Gold', 'Platinum'],
+        stock: 30,
+        isFeatured: false,
+      },
     ];
 
     const createdProducts = await Product.insertMany(products);
