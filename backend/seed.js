@@ -254,7 +254,7 @@ const seedDB = async () => {
       },
 
       {
-        name: 'Rolex Daytona | Eye of the Tiger',
+        name: 'Daytona | Eye of the Tiger',
         description: 'Flex on the huzz with this watch.',
         price: 400000.00,
         images: ['https://img.chrono24.com/images/uhren/26238088-guna6wtswqveb7k822cq1qdg-ExtraLarge.jpg'],
@@ -266,7 +266,7 @@ const seedDB = async () => {
       },
 
       {
-        name: 'Rolex Day-Date | Jigsaw Puzzle Dial',
+        name: 'Day-Date | Jigsaw Puzzle Dial',
         description: 'Flex on the huzz with this watch.',
         price: 315000.00,
         images: ['https://img.chrono24.com/images/uhren/44399674-1q2fwtv32358nnulxgtluudy-ExtraLarge.jpg'],
@@ -279,7 +279,7 @@ const seedDB = async () => {
 
       //Cartier
       {
-        name: 'Cartier Crash | Skeleton',
+        name: 'Crash | Skeleton',
         description: 'Flex on the huzz with this watch.',
         price: 577000.00,
         images: ['https://img.chrono24.com/images/uhren/41022556-peyp87luu66g44ysjslexkpg-ExtraLarge.jpg'],
@@ -291,7 +291,7 @@ const seedDB = async () => {
       },
 
       {
-        name: 'Cartier Crash | Paris',
+        name: 'Crash | Paris',
         description: 'Flex on the huzz with this watch.',
         price: 275000.00,
         images: ['https://img.chrono24.com/images/uhren/41093363-s210u37ay3u2c8bb55es30j1-ExtraLarge.jpg'],
@@ -303,7 +303,7 @@ const seedDB = async () => {
       },
 
       {
-        name: 'Cartier Ballon Bleu | Tourbillon',
+        name: 'Ballon Bleu | Tourbillon',
         description: 'Flex on the huzz with this watch.',
         price: 120000.00,
         images: ['https://img.chrono24.com/images/uhren/44956061-f3nd828o0y3eieouo80laqqe-ExtraLarge.jpg'],
@@ -315,7 +315,7 @@ const seedDB = async () => {
       },
 
       {
-        name: 'Cartier Santos | Diamond Bezel',
+        name: 'Santos | Factory Set Diamond Bezel',
         description: 'Flex on the huzz with this watch.',
         price: 160000.00,
         images: ['https://img.chrono24.com/images/uhren/45266401-v7rv3cz27ptpl9hh97yaemkc-ExtraLarge.jpg'],
@@ -327,7 +327,7 @@ const seedDB = async () => {
       },
 
       {
-        name: 'Cartier Tank | Asymetrique | Skeleton',
+        name: 'Tank | Asymetrique | Skeleton',
         description: 'Flex on the huzz with this watch.',
         price: 120000.00,
         images: ['https://img.chrono24.com/images/uhren/44705034-r4wfv3bafuaebyfchy4n1pv2-ExtraLarge.jpg'],
