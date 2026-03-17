@@ -36,7 +36,7 @@ const seedDB = async () => {
       //Audemars Piguet
       {
         name: 'Royal Oak | Perpetual Calendar | 41 Skeleton | Black Ceramic',
-        description: 'Flex on the huzz with this watch.',
+        description: 'I have tos',
         price: 528000.00,
         images: ['https://watchlab.ae/upload/iblock/9c3/3meosh19f0ht8xvd2jw2rflm9pt3mvle.jpg'],
         category: catMap['Audemars Piguet'],
@@ -218,7 +218,7 @@ const seedDB = async () => {
 
       //Rolex
       {
-        name: 'Rolex Daytona | Rainbow Dial ',
+        name: 'Daytona | Rainbow Bezel',
         description: 'Flex on the huzz with this watch.',
         price: 700000.00,
         images: ['https://img.chrono24.com/images/uhren/30656295-pahnrg7utiqurktjshg3hyum-ExtraLarge.jpg'],
@@ -230,7 +230,7 @@ const seedDB = async () => {
       },
 
       {
-        name: 'Rolex Day-Date | Meteorite Dial',
+        name: 'Day-Date | Meteorite Dial',
         description: 'Flex on the huzz with this watch.',
         price: 145000.00,
         images: ['https://img.chrono24.com/images/uhren/36908128-sg4pghpy94jzngsj2ysppvb9-ExtraLarge.jpg'],
@@ -242,7 +242,7 @@ const seedDB = async () => {
       },
 
       {
-        name: 'Rolex Daytona | Blue Carbon | Rainbow Dial',
+        name: 'Daytona | Blue Carbon | Rainbow Dial',
         description: 'Flex on the huzz with this watch.',
         price: 345000.00,
         images: ['https://about-timepieces.com/wp-content/uploads/2021/02/rainbow-blue_3d_1.jpg'],
