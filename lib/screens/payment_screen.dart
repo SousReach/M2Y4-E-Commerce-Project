@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import '../config/theme.dart';
+import '../utils/price_formatter.dart';
 import '../services/payment_service.dart';
 
 /// Displays an ABA KHQR QR code and polls for payment confirmation.
@@ -24,6 +25,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
   String? _tranId;
   Timer? _pollTimer;
   bool _isPaid = false;
+  double _amount = 0;
 
   @override
   void didChangeDependencies() {
@@ -44,6 +46,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     final orderId = args['orderId'] as String;
     final amount = args['amount'] as double;
+    _amount = amount;
 
     try {
       final result = await PaymentService.generateQr(
@@ -217,6 +220,42 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 Text(
                   'Transaction: ${_tranId ?? 'N/A'}',
                   style: TextStyle(fontSize: 12, color: AppTheme.textSecondary),
+                ),
+              ],
+            ),
+          ),
+
+          const SizedBox(height: 20),
+
+          // ── Total Amount ────────────────────────────
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+            decoration: BoxDecoration(
+              color: AppTheme.accent.withValues(alpha: 0.08),
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                color: AppTheme.accent.withValues(alpha: 0.25),
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  'Total Amount',
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                    color: AppTheme.textPrimary,
+                  ),
+                ),
+                Text(
+                  formatPrice(_amount),
+                  style: const TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.w700,
+                    color: AppTheme.accent,
+                  ),
                 ),
               ],
             ),
