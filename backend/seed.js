@@ -94,6 +94,66 @@ const seedDB = async () => {
         isFeatured: false,
       },
 
+      {
+        name: 'Royal Oak | Double Balance Wheel Openworked | Chandelier',
+        description: 'Flex on the huzz with this watch.',
+        price: 1840000.00,
+        images: ['https://img.chrono24.com/images/uhren/33543635-pbt3cebk6wai1bf93o3ix0xd-ExtraLarge.jpg'],
+        category: catMap['Audemars Piguet'],
+        sizes: ['S', 'M', 'L'],
+        colors: ['Gold'],
+        stock: 30,
+        isFeatured: true,
+      },
+
+      {
+        name: 'Royal Oak | Grande Complication | White Ceramic',
+        description: 'Flex on the huzz with this watch.',
+        price: 1420000.00,
+        images: ['https://img.chrono24.com/images/uhren/41285536-c6pmr15c6knvapac9kydbbgq-ExtraLarge.jpg'],
+        category: catMap['Audemars Piguet'],
+        sizes: ['S', 'M', 'L'],
+        colors: ['White Ceramic'],
+        stock: 30,
+        isFeatured: true,
+      },
+
+      {
+        name: 'Royal Oak | Perpetual Calendar | Openworked | Catus Jack',
+        description: 'Flex on the huzz with this watch.',
+        price: 640000.00,
+        images: ['https://img.chrono24.com/images/uhren/41285610-bjhkppegi55xyevud06jp8tj-ExtraLarge.jpg'],
+        category: catMap['Audemars Piguet'],
+        sizes: ['S', 'M', 'L'],
+        colors: ['Travis Scott Cactus Jack'],
+        stock: 30,
+        isFeatured: false,
+      },
+
+      {
+        name: 'Royal Oak | Double Balance Wheel Openworked | Sapphire Bezel | Japan Edition',
+        description: 'Flex on the huzz with this watch.',
+        price: 687000.00,
+        images: ['https://img.chrono24.com/images/uhren/37906252-b29itirtaacy61uq44bstmps-ExtraLarge.jpg'],
+        category: catMap['Audemars Piguet'],
+        sizes: ['S', 'M', 'L'],
+        colors: ['Japan Edition White Gold'],
+        stock: 30,
+        isFeatured: false,
+      },
+
+      {
+        name: 'Royal Oak | Skeletonized | Automatic Flywheel | Tourbillon',
+        description: 'Flex on the huzz with this watch.',
+        price: 627000.00,
+        images: ['https://img.chrono24.com/images/uhren/34397880-ki0x75h09ny5zbkrrlrcrr5c-ExtraLarge.jpg'],
+        category: catMap['Audemars Piguet'],
+        sizes: ['S', 'M', 'L'],
+        colors: ['Rose Gold'],
+        stock: 30,
+        isFeatured: false,
+      },
+
       //Patek Philippe
       {
         name: 'Nautilus | Tiffany & Co. Blue Dial',
