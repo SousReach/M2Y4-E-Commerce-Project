@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import '../config/theme.dart';
 import '../utils/price_formatter.dart';
 import '../providers/cart_provider.dart';
@@ -158,10 +159,27 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               const SizedBox(height: 12),
               ...cart.items.map(
                 (item) => Padding(
-                  padding: const EdgeInsets.only(bottom: 8),
+                  padding: const EdgeInsets.only(bottom: 12),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      // Product Thumbnail
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(6),
+                        child: item.product.images.isNotEmpty
+                            ? CachedNetworkImage(
+                                imageUrl: item.product.images[0],
+                                width: 40,
+                                height: 40,
+                                fit: BoxFit.cover,
+                              )
+                            : Container(
+                                width: 40,
+                                height: 40,
+                                color: Colors.grey[200],
+                                child: const Icon(Icons.image, size: 20, color: Colors.grey),
+                              ),
+                      ),
+                      const SizedBox(width: 12),
                       Expanded(
                         child: Text(
                           '${item.product.name} x${item.quantity}',
@@ -169,8 +187,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                             fontSize: 13,
                             color: AppTheme.textSecondary,
                           ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
+                      const SizedBox(width: 8),
                       Text(
                         formatPrice(item.totalPrice),
                         style: const TextStyle(fontWeight: FontWeight.w500),

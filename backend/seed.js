@@ -212,7 +212,7 @@ const seedDB = async () => {
         sizes: ['S', 'M', 'L'],
         colors: ['Tiffany Blue'],
         stock: 30,
-        isFeatured: false,
+        isFeatured: true,
       },
 
       //Richard Mille
@@ -273,7 +273,7 @@ const seedDB = async () => {
         sizes: ['S', 'M', 'L'],
         colors: ['Carbon TPT'],
         stock: 30,
-        isFeatured: false,
+        isFeatured: true,
       },
 
       //Rolex
