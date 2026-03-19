@@ -26,7 +26,7 @@ app.use('/api/payment', paymentRoutes);
 
 // Health check on the API
 app.get('/', (req, res) => {
-  res.json({ message: 'E-Commerce API is running' });
+  res.json({ message: 'E-Commerce Watch Store API is running' });
 });
 
 // Connect to MongoDB and start server
