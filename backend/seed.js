@@ -415,7 +415,7 @@ const seedDB = async () => {
         name: 'Speedmaster Professional | Rainbow Canopus',
         description: 'Flex on the huzz with this watch.',
         price: 169000.00,
-        images: ['https://cdn2.chrono24.com/images/product/228214-vgj9pqc809vfq3td8f5xen8k-Large.jpg'],
+        images: ['https://img.chrono24.com/images/uhren/37678053-anybykfa5ab4hmpgf3ldoidw-ExtraLarge.jpg'],
         category: catMap['Omega'],
         sizes: ['S', 'M', 'L'],
         colors: ['White Gold'],
