@@ -36,7 +36,7 @@ const seedDB = async () => {
       //Audemars Piguet
       {
         name: 'Royal Oak | Perpetual Calendar | 41 Skeleton | Black Ceramic',
-        description: 'I have tos',
+        description: 'Crafted entirely in sleek black ceramic, the 41mm case offers exceptional durability with a contemporary edge, while maintaining Audemars Piguet’s iconic octagonal silhouette. A true statement piece combining technical mastery and refined aesthetics.',
         price: 528000.00,
         images: ['https://watchlab.ae/upload/iblock/9c3/3meosh19f0ht8xvd2jw2rflm9pt3mvle.jpg'],
         category: catMap['Audemars Piguet'],
@@ -48,7 +48,7 @@ const seedDB = async () => {
       
       {
         name: 'Royal Oak | Perpetual Calendar | Blue Ceramic',
-        description: 'Flex on the huzz with this watch.',
+        description: 'A refined expression of innovation and craftsmanship, this Royal Oak features a deep blue ceramic case paired with a sophisticated perpetual calendar complication.',
         price: 1250000.00,
         images: ['https://img.chrono24.com/images/uhren/43730272-x8wfot8qbmyvl2122z2wwirs-ExtraLarge.jpg'],
         category: catMap['Audemars Piguet'],
@@ -60,7 +60,7 @@ const seedDB = async () => {
 
       {
         name: 'Ultra-Complication | Universelle',
-        description: 'Flex on the huzz with this watch.',
+        description: 'A pinnacle of horological engineering, the Ultra-Complication Universelle showcases extraordinary mechanical complexity with multiple high-end complications seamlessly integrated into a single timepiece.',
         price: 1980000.00,
         images: ['https://img.chrono24.com/images/uhren/30991066-k38a4fu3ye23e18n1pn50s4e-ExtraLarge.jpg'],
         category: catMap['Audemars Piguet'],
@@ -72,7 +72,7 @@ const seedDB = async () => {
 
       {
         name: 'Royal Oak | Rainbow Double Balance Wheel | Openworked',
-        description: 'Flex on the huzz with this watch.',
+        description: 'This exceptional timepiece combines Audemars Piguet’s signature openworked dial with a vibrant rainbow gem-setting, showcasing the brand’s mastery of both haute horlogerie and decorative arts.',
         price: 248000.00,
         images: ['https://img.chrono24.com/images/uhren/32729340-b48ocvb1mcj9fz41i8xg41va-ExtraLarge.jpg'],
         category: catMap['Audemars Piguet'],
@@ -84,7 +84,7 @@ const seedDB = async () => {
 
       {
         name: 'Royal Oak | Concept | MARVEL BLACK PANTHER | Flying Tourbillon',
-        description: 'Flex on the huzz with this watch.',
+        description: 'A bold fusion of haute horlogerie and pop culture, this Royal Oak Concept timepiece pays homage to the iconic Marvel superhero with its striking purple ceramic case and intricate flying tourbillon movement.',
         price: 804000.00,
         images: ['https://watchlab.ae/upload/iblock/287/hb1a2prwbpmlt0l0i4h3wzegotwzkzg0.jpg'],
         category: catMap['Audemars Piguet'],
@@ -96,7 +96,7 @@ const seedDB = async () => {
 
       {
         name: 'Royal Oak | Double Balance Wheel Openworked | Chandelier',
-        description: 'Flex on the huzz with this watch.',
+        description: 'This exquisite openworked timepiece features a captivating chandelier-style bridge design, showcasing the intricate mechanics of the double balance wheel movement in a truly artistic manner.',
         price: 1840000.00,
         images: ['https://img.chrono24.com/images/uhren/33543635-pbt3cebk6wai1bf93o3ix0xd-ExtraLarge.jpg'],
         category: catMap['Audemars Piguet'],
@@ -108,7 +108,7 @@ const seedDB = async () => {
 
       {
         name: 'Royal Oak | Grande Complication | White Ceramic',
-        description: 'Flex on the huzz with this watch.',
+        description: 'This magnificent Grande Complication combines Audemars Piguet’s technical prowess with the striking aesthetics of white ceramic, featuring a highly complex movement housed within the iconic octagonal case.',
         price: 1420000.00,
         images: ['https://img.chrono24.com/images/uhren/41285536-c6pmr15c6knvapac9kydbbgq-ExtraLarge.jpg'],
         category: catMap['Audemars Piguet'],
@@ -120,7 +120,7 @@ const seedDB = async () => {
 
       {
         name: 'Royal Oak | Perpetual Calendar | Openworked | Catus Jack',
-        description: 'Flex on the huzz with this watch.',
+        description: 'A highly sought-after collaboration, this Royal Oak Perpetual Calendar features an openworked dial and unique design elements inspired by Travis Scott’s Cactus Jack aesthetic.',
         price: 640000.00,
         images: ['https://img.chrono24.com/images/uhren/41285610-bjhkppegi55xyevud06jp8tj-ExtraLarge.jpg'],
         category: catMap['Audemars Piguet'],
@@ -132,7 +132,7 @@ const seedDB = async () => {
 
       {
         name: 'Royal Oak | Double Balance Wheel Openworked | Sapphire Bezel | Japan Edition',
-        description: 'Flex on the huzz with this watch.',
+        description: 'This Japan Edition timepiece features a captivating openworked dial with a sapphire bezel, showcasing the intricate double balance wheel mechanism in a truly unique presentation.',
         price: 687000.00,
         images: ['https://img.chrono24.com/images/uhren/37906252-b29itirtaacy61uq44bstmps-ExtraLarge.jpg'],
         category: catMap['Audemars Piguet'],
@@ -144,7 +144,7 @@ const seedDB = async () => {
 
       {
         name: 'Royal Oak | Skeletonized | Automatic Flywheel | Tourbillon',
-        description: 'Flex on the huzz with this watch.',
+        description: 'This captivating skeletonized timepiece showcases the intricate automatic flywheel tourbillon movement, highlighting Audemars Piguet’s exceptional watchmaking artistry.',
         price: 627000.00,
         images: ['https://img.chrono24.com/images/uhren/34397880-ki0x75h09ny5zbkrrlrcrr5c-ExtraLarge.jpg'],
         category: catMap['Audemars Piguet'],
