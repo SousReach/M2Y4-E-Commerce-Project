@@ -36,7 +36,7 @@ const seedDB = async () => {
       //Audemars Piguet
       {
         name: 'Royal Oak | Perpetual Calendar | 41 Skeleton | Black Ceramic',
-        description: 'Crafted entirely in sleek black ceramic, the 41mm case offers exceptional durability with a contemporary edge, while maintaining Audemars Piguet’s iconic octagonal silhouette. A true statement piece combining technical mastery and refined aesthetics.',
+        description: 'Crafted entirely in sleek black ceramic, the 41mm case offers exceptional durability with a contemporary edge, while maintaining Audemars Piguet’s iconic octagonal silhouette.',
         price: 528000.00,
         images: ['https://watchlab.ae/upload/iblock/9c3/3meosh19f0ht8xvd2jw2rflm9pt3mvle.jpg'],
         category: catMap['Audemars Piguet'],
