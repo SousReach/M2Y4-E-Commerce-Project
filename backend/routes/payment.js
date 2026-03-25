@@ -67,9 +67,10 @@ router.post('/generate-qr', async (req, res) => {
     // To solve this cleanly for frontend testing, we override the amount passed to ABA Payway 
     // to $1.00 USD (or 4000 KHR) ONLY when using the Sandbox API.
 
-    if (process.env.ABA_PAYWAY_API_URL && process.env.ABA_PAYWAY_API_URL.includes('sandbox')) {
-      fixedAmount = currency === 'KHR' ? '4000' : '1.00';
-    }
+    // TEMPORARILY DISABLED: Testing actual full amounts with the newly updated simulator
+    // if (process.env.ABA_PAYWAY_API_URL && process.env.ABA_PAYWAY_API_URL.includes('sandbox')) {
+    //   fixedAmount = currency === 'KHR' ? '4000' : '1.00';
+    // }
 
     const req_time = paywayReqTime();
     const tran_id = req_time + Math.floor(Math.random() * 10000);
