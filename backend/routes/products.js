@@ -3,14 +3,24 @@ const Product = require('../models/Product');
 
 const router = express.Router();
 
-// Get all products (with optional search)
+// Get all products (with optional search, sort, and filters)
 router.get('/', async (req, res) => {
   try {
-    const { q, sort } = req.query;
+    const { q, sort, category, minPrice, maxPrice } = req.query;
     let filter = {};
 
     if (q) {
       filter.name = { $regex: q, $options: 'i' };
+    }
+
+    if (category) {
+      filter.category = category;
+    }
+
+    if (minPrice || maxPrice) {
+      filter.price = {};
+      if (minPrice) filter.price.$gte = Number(minPrice);
+      if (maxPrice) filter.price.$lte = Number(maxPrice);
     }
 
     let query = Product.find(filter).populate('category', 'name');

@@ -57,10 +57,19 @@ router.post('/generate-qr', async (req, res) => {
     }
 
     // Format amount: 2 decimals for USD, integer for KHR
-    const fixedAmount =
+    let fixedAmount =
       currency === 'KHR'
         ? Math.round(Number(amount)).toString()
         : parseFloat(amount).toFixed(2);
+
+    // Sandbox safeguard: The ABA Simulator test account (500 000 002) has a finite mock balance limit.
+    // If the user buys luxury watches ($100,000+), the mock balance drains fast and the PIN screen fails. 
+    // To solve this cleanly for frontend testing, we override the amount passed to ABA Payway 
+    // to $1.00 USD (or 4000 KHR) ONLY when using the Sandbox API.
+
+    if (process.env.ABA_PAYWAY_API_URL && process.env.ABA_PAYWAY_API_URL.includes('sandbox')) {
+      fixedAmount = currency === 'KHR' ? '4000' : '1.00';
+    }
 
     const req_time = paywayReqTime();
     const tran_id = req_time + Math.floor(Math.random() * 10000);

@@ -451,7 +451,7 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           // Search bar
           Padding(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
             child: TextField(
               onSubmitted: (query) {
                 context.read<ProductProvider>().loadProducts(query: query);
@@ -468,6 +468,137 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
+
+          // Category chips
+          Consumer<ProductProvider>(
+            builder: (context, provider, _) {
+              if (provider.categories.isEmpty) return const SizedBox.shrink();
+              return SizedBox(
+                height: 52,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
+                  itemCount: provider.categories.length + 1, // +1 for "All"
+                  itemBuilder: (context, index) {
+                    final isAll = index == 0;
+                    final isSelected = isAll
+                        ? provider.activeCategoryId == null
+                        : provider.activeCategoryId ==
+                            provider.categories[index - 1].id;
+                    final label = isAll
+                        ? 'All'
+                        : provider.categories[index - 1].name;
+
+                    return Padding(
+                      padding: const EdgeInsets.only(right: 8),
+                      child: ChoiceChip(
+                        label: Text(label),
+                        selected: isSelected,
+                        onSelected: (_) {
+                          provider.setCategory(
+                            isAll ? null : provider.categories[index - 1].id,
+                          );
+                        },
+                        selectedColor: AppTheme.primary,
+                        backgroundColor: const Color(0xFFF7F4EF),
+                        labelStyle: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w500,
+                          color: isSelected ? Colors.white : AppTheme.textSecondary,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                          side: BorderSide(
+                            color: isSelected
+                                ? AppTheme.primary
+                                : AppTheme.divider,
+                          ),
+                        ),
+                        showCheckmark: false,
+                        padding: const EdgeInsets.symmetric(horizontal: 4),
+                      ),
+                    );
+                  },
+                ),
+              );
+            },
+          ),
+
+          // Sort / Filter row
+          Consumer<ProductProvider>(
+            builder: (context, provider, _) {
+              return Padding(
+                padding: const EdgeInsets.fromLTRB(20, 12, 12, 4),
+                child: Row(
+                  children: [
+                    Text(
+                      provider.isLoading
+                          ? 'Loading...'
+                          : '${provider.products.length} watches',
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: AppTheme.textSecondary,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    const Spacer(),
+                    // Sort dropdown
+                    _buildSortButton(provider),
+                    const SizedBox(width: 4),
+                    // Filter button
+                    _buildFilterButton(provider),
+                  ],
+                ),
+              );
+            },
+          ),
+
+          // Active filter chips
+          Consumer<ProductProvider>(
+            builder: (context, provider, _) {
+              if (!provider.hasActiveFilters && provider.activeSort != null) {
+                // show sort chip
+              } else if (!provider.hasActiveFilters) {
+                return const SizedBox.shrink();
+              }
+              return SizedBox(
+                height: 40,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  children: [
+                    if (provider.activeSort != null)
+                      _buildActiveChip(
+                        _sortLabel(provider.activeSort!),
+                        () => provider.setSort(null),
+                      ),
+                    if (provider.minPrice != null || provider.maxPrice != null)
+                      _buildActiveChip(
+                        _priceRangeLabel(provider.minPrice, provider.maxPrice),
+                        () => provider.setPriceRange(min: null, max: null),
+                      ),
+                    if (provider.hasActiveFilters || provider.activeSort != null)
+                      Padding(
+                        padding: const EdgeInsets.only(left: 4),
+                        child: ActionChip(
+                          label: const Text('Clear All'),
+                          onPressed: () => provider.clearFilters(),
+                          backgroundColor: Colors.transparent,
+                          side: BorderSide.none,
+                          labelStyle: TextStyle(
+                            fontSize: 12,
+                            color: AppTheme.error,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+              );
+            },
+          ),
+
+          // Product grid
           Expanded(
             child: Consumer<ProductProvider>(
               builder: (context, provider, _) {
@@ -475,7 +606,31 @@ class _HomeScreenState extends State<HomeScreen> {
                   return _buildProductGridShimmer(scrollable: true);
                 }
                 if (provider.products.isEmpty) {
-                  return const Center(child: Text('No products found'));
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.watch_outlined, size: 56, color: Colors.grey[300]),
+                        const SizedBox(height: 12),
+                        const Text(
+                          'No watches found',
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                        ),
+                        const SizedBox(height: 6),
+                        Text(
+                          'Try adjusting your filters',
+                          style: TextStyle(color: AppTheme.textSecondary, fontSize: 13),
+                        ),
+                        if (provider.hasActiveFilters) ...[
+                          const SizedBox(height: 16),
+                          OutlinedButton(
+                            onPressed: () => provider.clearFilters(),
+                            child: const Text('Clear Filters'),
+                          ),
+                        ],
+                      ],
+                    ),
+                  );
                 }
                 return GridView.builder(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -507,6 +662,293 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
+  Widget _buildSortButton(ProductProvider provider) {
+    return PopupMenuButton<String>(
+      icon: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(Icons.swap_vert, size: 20, color: AppTheme.textSecondary),
+          const SizedBox(width: 2),
+          Text(
+            provider.activeSort != null
+                ? _sortLabel(provider.activeSort!)
+                : 'Sort',
+            style: TextStyle(
+              fontSize: 12,
+              color: provider.activeSort != null
+                  ? AppTheme.primary
+                  : AppTheme.textSecondary,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
+      ),
+      onSelected: (value) {
+        provider.setSort(value == 'newest' ? null : value);
+      },
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      itemBuilder: (context) => [
+        _sortMenuItem('newest', 'Newest First', provider.activeSort),
+        _sortMenuItem('price_asc', 'Price: Low → High', provider.activeSort),
+        _sortMenuItem('price_desc', 'Price: High → Low', provider.activeSort),
+      ],
+    );
+  }
+
+  PopupMenuItem<String> _sortMenuItem(
+      String value, String label, String? active) {
+    final isActive = (active == null && value == 'newest') || active == value;
+    return PopupMenuItem(
+      value: value,
+      child: Row(
+        children: [
+          if (isActive)
+            Icon(Icons.check, size: 18, color: AppTheme.primary)
+          else
+            const SizedBox(width: 18),
+          const SizedBox(width: 8),
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: isActive ? FontWeight.w600 : FontWeight.w400,
+              color: isActive ? AppTheme.primary : AppTheme.textPrimary,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildFilterButton(ProductProvider provider) {
+    return Stack(
+      children: [
+        IconButton(
+          icon: Icon(
+            Icons.tune,
+            size: 20,
+            color: provider.hasActiveFilters
+                ? AppTheme.primary
+                : AppTheme.textSecondary,
+          ),
+          onPressed: () => _showFilterSheet(provider),
+        ),
+        if (provider.hasActiveFilters)
+          Positioned(
+            right: 6,
+            top: 6,
+            child: Container(
+              width: 16,
+              height: 16,
+              decoration: BoxDecoration(
+                color: AppTheme.accent,
+                shape: BoxShape.circle,
+              ),
+              child: Center(
+                child: Text(
+                  '${provider.activeFilterCount}',
+                  style: const TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+          ),
+      ],
+    );
+  }
+
+  void _showFilterSheet(ProductProvider provider) {
+    final minCtrl = TextEditingController(
+      text: provider.minPrice?.toInt().toString() ?? '',
+    );
+    final maxCtrl = TextEditingController(
+      text: provider.maxPrice?.toInt().toString() ?? '',
+    );
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        return Container(
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+          ),
+          padding: const EdgeInsets.fromLTRB(24, 12, 24, 32),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Handle bar
+              Center(
+                child: Container(
+                  width: 40,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: AppTheme.divider,
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              // Title
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'Filter',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      provider.clearFilters();
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      'Reset',
+                      style: TextStyle(
+                        color: AppTheme.error,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+
+              // Price Range
+              const Text(
+                'Price Range (USD)',
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(height: 12),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: minCtrl,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        hintText: 'Min',
+                        prefixText: '\$ ',
+                        prefixStyle: TextStyle(
+                          color: AppTheme.textSecondary,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 14,
+                          vertical: 14,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    child: Text(
+                      '—',
+                      style: TextStyle(
+                        color: AppTheme.textSecondary,
+                        fontSize: 18,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: TextField(
+                      controller: maxCtrl,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        hintText: 'Max',
+                        prefixText: '\$ ',
+                        prefixStyle: TextStyle(
+                          color: AppTheme.textSecondary,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 14,
+                          vertical: 14,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 28),
+
+              // Apply button
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    final min = double.tryParse(minCtrl.text);
+                    final max = double.tryParse(maxCtrl.text);
+                    provider.setPriceRange(min: min, max: max);
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Apply Filters'),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildActiveChip(String label, VoidCallback onRemove) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 8),
+      child: Chip(
+        label: Text(
+          label,
+          style: const TextStyle(fontSize: 12, color: Colors.white),
+        ),
+        backgroundColor: AppTheme.primary,
+        deleteIcon: const Icon(Icons.close, size: 14, color: Colors.white),
+        onDeleted: onRemove,
+        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        visualDensity: VisualDensity.compact,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+          side: BorderSide.none,
+        ),
+        side: BorderSide.none,
+      ),
+    );
+  }
+
+  String _sortLabel(String sort) {
+    switch (sort) {
+      case 'price_asc':
+        return 'Price ↑';
+      case 'price_desc':
+        return 'Price ↓';
+      default:
+        return 'Newest';
+    }
+  }
+
+  String _priceRangeLabel(double? min, double? max) {
+    if (min != null && max != null) {
+      return '\$${min.toInt()} – \$${max.toInt()}';
+    } else if (min != null) {
+      return 'From \$${min.toInt()}';
+    } else if (max != null) {
+      return 'Up to \$${max.toInt()}';
+    }
+    return 'Price range';
+  }
+
 
   // ─────────────────────────────────────────────────────────
   // CART TAB
