@@ -157,7 +157,7 @@ const seedDB = async () => {
       //Patek Philippe
       {
         name: 'Nautilus | Tiffany & Co. Blue Dial',
-        description: 'Flex on the huzz with this watch.',
+        description: 'A highly sought-after collaboration, this Nautilus features the iconic Tiffany & Co. blue dial, showcasing Patek Philippe’s exceptional watchmaking artistry.',
         price: 1500000.00,
         images: ['https://cdn2.chrono24.com/images/product/159726-9ow4vym7vlq8xxbt5m49ut9w-Large.jpg'],
         category: catMap['Patek Philippe'],
@@ -169,7 +169,7 @@ const seedDB = async () => {
 
       {
         name: 'Celestial Moon | Grand complication',
-        description: 'Flex on the huzz with this watch.',
+        description: 'This exceptional Grand Complication features a captivating celestial moon display, showcasing Patek Philippe’s mastery of both horological artistry and astronomical precision.',
         price: 1600000.00,
         images: ['https://img.chrono24.com/images/uhren/34252830-r6c42lvxxcdp5xtv0wwneezk-ExtraLarge.jpg'],
         category: catMap['Patek Philippe'],
@@ -181,7 +181,7 @@ const seedDB = async () => {
 
       {
         name: 'Perpetual Calendar | Chronograph',
-        description: 'Flex on the huzz with this watch.',
+        description: 'This exceptional Perpetual Calendar Chronograph combines Patek Philippe’s technical prowess with the striking aesthetics of white ceramic, featuring a highly complex movement housed within the iconic octagonal case.',
         price: 245000.00,
         images: ['https://img.chrono24.com/images/uhren/42699417-tf6tpfgmsrbliw7xmthnbpcb-ExtraLarge.jpg'],
         category: catMap['Patek Philippe'],
@@ -193,7 +193,7 @@ const seedDB = async () => {
 
       {
         name: 'Nautilus',
-        description: 'Flex on the huzz with this watch.',
+        description: 'This exceptional Nautilus combines Patek Philippe’s technical prowess with the striking aesthetics of white ceramic, featuring a highly complex movement housed within the iconic octagonal case.',
         price: 120000.00,
         images: ['https://img.chrono24.com/images/uhren/35216606-xuyiijb6865o7o7e4ts1w40p-ExtraLarge.jpg'],
         category: catMap['Patek Philippe'],
@@ -205,7 +205,7 @@ const seedDB = async () => {
 
       {
         name: 'Aquanaut | Luce "Rainbow" Haute Joaillerie | Minute Repeater',
-        description: 'Flex on the huzz with this watch.',
+        description: 'This exceptional Aquanaut Luce features a captivating rainbow gem-setting, showcasing Patek Philippe’s mastery of both haute horlogerie and decorative arts.',
         price: 730000.00,
         images: ['https://img.chrono24.com/images/uhren/31744953-qv56opnnfjebla4g1smdyyre-ExtraLarge.jpg'],
         category: catMap['Patek Philippe'],
@@ -218,7 +218,7 @@ const seedDB = async () => {
       //Richard Mille
       {
         name: 'RM 052 | Skull Tourbillon | Rose Gold Limited Edition',
-        description: 'Flex on the huzz with this watch.',
+        description: 'This exceptional RM 052 features a captivating skull tourbillon, showcasing Richard Mille’s mastery of both haute horlogerie and decorative arts.',
         price: 2000000.00,
         images: ['https://img.chrono24.com/images/uhren/32469519-95y9opbuudbfkdnbuz3hees0-ExtraLarge.jpg'],
         category: catMap['Richard Mille'],
@@ -230,7 +230,7 @@ const seedDB = async () => {
 
       {
         name: 'RM 11-03 | "Last White Edition" | Automatic Flyback Chronograph',
-        description: 'Flex on the huzz with this watch.',
+        description: 'This exceptional RM 11-03 features a captivating flyback chronograph movement, showcasing Richard Mille’s mastery of both haute horlogerie and technical innovation.',
         price: 550000.00,
         images: ['https://img.chrono24.com/images/uhren/34526538-rwkxlrzkkz5v1nvrt7e20yvn-ExtraLarge.jpg'],
         category: catMap['Richard Mille'],
@@ -242,7 +242,7 @@ const seedDB = async () => {
 
       {
         name: 'RM 88 | Tourbillon | Smiley',
-        description: 'Flex on the huzz with this watch.',
+        description: 'This exceptional RM 88 features a captivating tourbillon movement, showcasing Richard Mille’s mastery of both haute horlogerie and technical innovation.',
         price: 4024000.00,
         images: ['https://img.chrono24.com/images/uhren/38350421-lapkti2gscyxa9hszl9zat2v-ExtraLarge.jpg'],
         category: catMap['Richard Mille'],
@@ -254,7 +254,7 @@ const seedDB = async () => {
 
       {
         name: 'RM 055 | Bubba Watson | White Ceramic',
-        description: 'Flex on the huzz with this watch.',
+        description: 'This exceptional RM 055 features a captivating tourbillon movement, showcasing Richard Mille’s mastery of both haute horlogerie and technical innovation.',
         price: 360000.00,
         images: ['https://img.chrono24.com/images/uhren/32833542-2vvreliatzvyaqlvr94cktro-ExtraLarge.jpg'],
         category: catMap['Richard Mille'],
@@ -266,7 +266,7 @@ const seedDB = async () => {
 
       {
         name: 'RM 57-02 | Tourbillon Carbon TPT | Sapphire Dragon',
-        description: 'Flex on the huzz with this watch.',
+        description: 'This exceptional RM 57-02 features a captivating tourbillon movement, showcasing Richard Mille’s mastery of both haute horlogerie and technical innovation.',
         price: 1200000.00,
         images: ['https://img.chrono24.com/images/uhren/41591552-zb9feu9d8wip00qasa1biecj-ExtraLarge.jpg'],
         category: catMap['Richard Mille'],
@@ -279,7 +279,7 @@ const seedDB = async () => {
       //Rolex
       {
         name: 'Daytona | Rainbow Bezel',
-        description: 'Flex on the huzz with this watch.',
+        description: 'This exceptional Daytona features a captivating rainbow bezel, showcasing Rolex’s mastery of both haute horlogerie and decorative arts.',
         price: 700000.00,
         images: ['https://img.chrono24.com/images/uhren/30656295-pahnrg7utiqurktjshg3hyum-ExtraLarge.jpg'],
         category: catMap['Rolex'],
@@ -291,7 +291,7 @@ const seedDB = async () => {
 
       {
         name: 'Day-Date | Meteorite Dial',
-        description: 'Flex on the huzz with this watch.',
+        description: 'This exceptional Day-Date features a captivating meteorite dial, showcasing Rolex’s mastery of both haute horlogerie and decorative arts.',
         price: 145000.00,
         images: ['https://img.chrono24.com/images/uhren/36908128-sg4pghpy94jzngsj2ysppvb9-ExtraLarge.jpg'],
         category: catMap['Rolex'],
@@ -303,7 +303,7 @@ const seedDB = async () => {
 
       {
         name: 'Daytona | Blue Carbon | Rainbow Dial',
-        description: 'Flex on the huzz with this watch.',
+        description: 'This exceptional Daytona features a captivating blue carbon dial with a rainbow bezel, showcasing Rolex’s mastery of both haute horlogerie and decorative arts.',
         price: 345000.00,
         images: ['https://about-timepieces.com/wp-content/uploads/2021/02/rainbow-blue_3d_1.jpg'],
         category: catMap['Rolex'],
@@ -315,7 +315,7 @@ const seedDB = async () => {
 
       {
         name: 'Daytona | Eye of the Tiger',
-        description: 'Flex on the huzz with this watch.',
+        description: 'This exceptional Daytona features a captivating eye of the tiger dial, showcasing Rolex’s mastery of both haute horlogerie and decorative arts.',
         price: 400000.00,
         images: ['https://img.chrono24.com/images/uhren/26238088-guna6wtswqveb7k822cq1qdg-ExtraLarge.jpg'],
         category: catMap['Rolex'],
@@ -327,7 +327,7 @@ const seedDB = async () => {
 
       {
         name: 'Day-Date | Jigsaw Puzzle Dial',
-        description: 'Flex on the huzz with this watch.',
+        description: 'This exceptional Day-Date features a captivating jigsaw puzzle dial, showcasing Rolex’s mastery of both haute horlogerie and decorative arts.',
         price: 315000.00,
         images: ['https://img.chrono24.com/images/uhren/44399674-1q2fwtv32358nnulxgtluudy-ExtraLarge.jpg'],
         category: catMap['Rolex'],
@@ -340,7 +340,7 @@ const seedDB = async () => {
       //Cartier
       {
         name: 'Crash | Skeleton',
-        description: 'Flex on the huzz with this watch.',
+        description: 'This exceptional Crash Skeleton features a captivating skeleton movement, showcasing Cartier’s mastery of both haute horlogerie and decorative arts.',
         price: 577000.00,
         images: ['https://img.chrono24.com/images/uhren/41022556-peyp87luu66g44ysjslexkpg-ExtraLarge.jpg'],
         category: catMap['Cartier'],
@@ -352,7 +352,7 @@ const seedDB = async () => {
 
       {
         name: 'Crash | Paris',
-        description: 'Flex on the huzz with this watch.',
+        description: 'This exceptional Crash Paris features a captivating design, showcasing Cartier’s mastery of both haute horlogerie and decorative arts.',
         price: 275000.00,
         images: ['https://img.chrono24.com/images/uhren/41093363-s210u37ay3u2c8bb55es30j1-ExtraLarge.jpg'],
         category: catMap['Cartier'],
@@ -364,7 +364,7 @@ const seedDB = async () => {
 
       {
         name: 'Ballon Bleu | Tourbillon',
-        description: 'Flex on the huzz with this watch.',
+        description: 'This exceptional Ballon Bleu Tourbillon features a captivating tourbillon movement, showcasing Cartier’s mastery of both haute horlogerie and technical innovation.',
         price: 120000.00,
         images: ['https://img.chrono24.com/images/uhren/44956061-f3nd828o0y3eieouo80laqqe-ExtraLarge.jpg'],
         category: catMap['Cartier'],
@@ -376,7 +376,7 @@ const seedDB = async () => {
 
       {
         name: 'Santos | Factory Set Diamond Bezel',
-        description: 'Flex on the huzz with this watch.',
+        description: 'This exceptional Santos features a captivating factory set diamond bezel, showcasing Cartier’s mastery of both haute horlogerie and decorative arts.',
         price: 160000.00,
         images: ['https://img.chrono24.com/images/uhren/45266401-v7rv3cz27ptpl9hh97yaemkc-ExtraLarge.jpg'],
         category: catMap['Cartier'],
@@ -388,7 +388,7 @@ const seedDB = async () => {
 
       {
         name: 'Tank | Asymetrique | Skeleton',
-        description: 'Flex on the huzz with this watch.',
+        description: 'This exceptional Tank Asymetrique Skeleton features a captivating skeleton movement, showcasing Cartier’s mastery of both haute horlogerie and technical innovation.',
         price: 120000.00,
         images: ['https://img.chrono24.com/images/uhren/44705034-r4wfv3bafuaebyfchy4n1pv2-ExtraLarge.jpg'],
         category: catMap['Cartier'],
@@ -401,7 +401,7 @@ const seedDB = async () => {
       //Omega
       {
         name: 'De Ville | Central Tourbillon ',
-        description: 'Flex on the huzz with this watch.',
+        description: 'This exceptional De Ville Central Tourbillon features a captivating tourbillon movement, showcasing Omega’s mastery of both haute horlogerie and technical innovation.',
         price: 242000.00,
         images: ['https://img.chrono24.com/images/uhren/44661002-37ueny3f3rf6ttobcnxrit1d-ExtraLarge.jpg'],
         category: catMap['Omega'],
@@ -413,7 +413,7 @@ const seedDB = async () => {
 
       {
         name: 'Speedmaster Professional | Rainbow Canopus',
-        description: 'Flex on the huzz with this watch.',
+        description: 'This exceptional Speedmaster Professional features a captivating rainbow canopus, showcasing Omega’s mastery of both haute horlogerie and decorative arts.',
         price: 169000.00,
         images: ['https://img.chrono24.com/images/uhren/37678053-anybykfa5ab4hmpgf3ldoidw-ExtraLarge.jpg'],
         category: catMap['Omega'],
@@ -425,7 +425,7 @@ const seedDB = async () => {
 
       {
         name: 'Seamaster | James Bond | 60th Anniversary',
-        description: 'Flex on the huzz with this watch.',
+        description: 'This exceptional Seamaster features a captivating James Bond 60th anniversary design, showcasing Omega’s mastery of both haute horlogerie and decorative arts.',
         price: 150000.00,
         images: ['https://www.omegawatches.com/media/catalog/product/o/m/omega-seamaster-diver-300m-co-axial-master-chronometer-42-mm-21055422099001-watch-wrist-04041c.png'],
         category: catMap['Omega'],
@@ -437,7 +437,7 @@ const seedDB = async () => {
 
       {
         name: 'Speedmaster | Two Counters | Moonphase',
-        description: 'Flex on the huzz with this watch.',
+        description: 'This exceptional Speedmaster features a captivating two counters moonphase design, showcasing Omega’s mastery of both haute horlogerie and decorative arts.',
         price: 140000.00,
         images: ['https://img.chrono24.com/images/uhren/44653015-2bweo4qbj6fxd31uygs46lar-ExtraLarge.jpg'],
         category: catMap['Omega'],
@@ -449,7 +449,7 @@ const seedDB = async () => {
 
       {
         name: 'Seamaster | Aqua Terra | World Timer',
-        description: 'Flex on the huzz with this watch.',
+        description: 'This exceptional Seamaster features a captivating world timer design, showcasing Omega’s mastery of both haute horlogerie and decorative arts.',
         price: 110000.00,
         images: ['https://img.chrono24.com/images/uhren/37454441-7m5jwib0kyxu7lrzr6bfqtt8-ExtraLarge.jpg'],
         category: catMap['Omega'],
