@@ -3,7 +3,6 @@ const Product = require('../models/Product');
 
 const router = express.Router();
 
-// Get all products (with optional search, sort, and filters)
 router.get('/', async (req, res) => {
   try {
     const { q, sort, category, minPrice, maxPrice } = req.query;

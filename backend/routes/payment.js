@@ -5,7 +5,6 @@ const Order = require('../models/Order');
 
 const router = express.Router();
 
-// ── Helpers ──────────────────────────────────────────────────────────
 
 /** ABA req_time must be yyyyMMddHHmmss in UTC */
 function paywayReqTime() {
@@ -39,7 +38,7 @@ function filterParams(params) {
   return out;
 }
 
-// ── POST /generate-qr ───────────────────────────────────────────────
+
 router.post('/generate-qr', async (req, res) => {
   try {
     const {
@@ -68,16 +67,16 @@ router.post('/generate-qr', async (req, res) => {
     // to $1.00 USD (or 4000 KHR) ONLY when using the Sandbox API.
 
     // TEMPORARILY DISABLED: Testing actual full amounts with the newly updated simulator
-    // if (process.env.ABA_PAYWAY_API_URL && process.env.ABA_PAYWAY_API_URL.includes('sandbox')) {
-    //   fixedAmount = currency === 'KHR' ? '4000' : '1.00';
-    // }
+    if (process.env.ABA_PAYWAY_API_URL && process.env.ABA_PAYWAY_API_URL.includes('sandbox')) {
+      fixedAmount = currency === 'KHR' ? '4000' : '1.00';
+    }
 
     const req_time = paywayReqTime();
     const tran_id = req_time + Math.floor(Math.random() * 10000);
 
     // QR-specific fields
     const payment_option = 'abapay_khqr';
-    const lifetime = '900';              // 15 minutes
+    const lifetime = '900';              
     const qr_image_template = 'template3_color';
 
     // Optional fields we're not using

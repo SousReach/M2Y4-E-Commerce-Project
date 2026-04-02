@@ -4,7 +4,7 @@ const auth = require('../middleware/auth');
 
 const router = express.Router();
 
-// Get user's cart
+
 router.get('/', auth, async (req, res) => {
   try {
     const user = await User.findById(req.userId).populate('cart.product');
@@ -14,13 +14,13 @@ router.get('/', auth, async (req, res) => {
   }
 });
 
-// Add item to cart
+
 router.post('/add', auth, async (req, res) => {
   try {
     const { productId, quantity, size, color } = req.body;
     const user = await User.findById(req.userId);
 
-    // Check if product already in cart with same size/color
+
     const existingIndex = user.cart.findIndex(
       (item) =>
         item.product.toString() === productId &&

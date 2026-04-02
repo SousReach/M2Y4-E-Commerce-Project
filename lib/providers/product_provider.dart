@@ -11,7 +11,7 @@ class ProductProvider extends ChangeNotifier {
   bool _isLoading = false;
   String? _error;
 
-  // ── Active filter / sort state ──
+
   String? _activeSort;
   String? _activeCategoryId;
   String? _activeQuery;

@@ -5,7 +5,6 @@ const auth = require('../middleware/auth');
 
 const router = express.Router();
 
-// Register
 router.post('/register', async (req, res) => {
   try {
     const { name, email, password } = req.body;

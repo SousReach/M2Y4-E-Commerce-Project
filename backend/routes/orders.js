@@ -5,7 +5,7 @@ const auth = require('../middleware/auth');
 
 const router = express.Router();
 
-// Place order
+
 router.post('/', auth, async (req, res) => {
   try {
     const { items, totalPrice, shippingAddress } = req.body;
