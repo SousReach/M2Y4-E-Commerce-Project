@@ -3,6 +3,14 @@ require('dotenv').config();
 
 const Category = require('./models/Category');
 const Product = require('./models/Product');
+const Review = require('./models/Review');
+const Cart = require('./models/Cart');
+const Wishlist = require('./models/Wishlist');
+const Payment = require('./models/Payment');
+const Address = require('./models/Address');
+const Coupon = require('./models/Coupon');
+const User = require('./models/User');
+const Order = require('./models/Order');
 
 const categories = [
   { name: 'Audemars Piguet', image: 'https://cdn.freebiesupply.com/logos/large/2x/audemars-piguet-logo-black-and-white.png' },
@@ -18,9 +26,15 @@ const seedDB = async () => {
     await mongoose.connect(process.env.MONGODB_URI);
     console.log('Connected to MongoDB');
 
-    // Clear existing data
+    // Clear existing data (all 10 collections)
     await Category.deleteMany({});
     await Product.deleteMany({});
+    await Review.deleteMany({});
+    await Cart.deleteMany({});
+    await Wishlist.deleteMany({});
+    await Payment.deleteMany({});
+    await Address.deleteMany({});
+    await Coupon.deleteMany({});
     console.log('Cleared existing data');
 
     // Insert categories
@@ -30,13 +44,13 @@ const seedDB = async () => {
     const catMap = {};
     createdCategories.forEach((c) => (catMap[c.name] = c._id));
 
-    // Insert products area
+    // Insert products
     const products = [
 
       //Audemars Piguet
       {
         name: 'Royal Oak | Perpetual Calendar | 41 Skeleton | Black Ceramic',
-        description: 'Crafted entirely in sleek black ceramic, the 41mm case offers exceptional durability with a contemporary edge, while maintaining Audemars Piguet’s iconic octagonal silhouette.',
+        description: 'Crafted entirely in sleek black ceramic, the 41mm case offers exceptional durability with a contemporary edge, while maintaining Audemars Piguet\'s iconic octagonal silhouette.',
         price: 528000.00,
         images: ['https://watchlab.ae/upload/iblock/9c3/3meosh19f0ht8xvd2jw2rflm9pt3mvle.jpg'],
         category: catMap['Audemars Piguet'],
@@ -45,7 +59,7 @@ const seedDB = async () => {
         stock: 30,
         isFeatured: true,
       },
-      
+
       {
         name: 'Royal Oak | Perpetual Calendar | Blue Ceramic',
         description: 'A refined expression of innovation and craftsmanship, this Royal Oak features a deep blue ceramic case paired with a sophisticated perpetual calendar complication.',
@@ -72,7 +86,7 @@ const seedDB = async () => {
 
       {
         name: 'Royal Oak | Rainbow Double Balance Wheel | Openworked',
-        description: 'This exceptional timepiece combines Audemars Piguet’s signature openworked dial with a vibrant rainbow gem-setting, showcasing the brand’s mastery of both haute horlogerie and decorative arts.',
+        description: 'This exceptional timepiece combines Audemars Piguet\'s signature openworked dial with a vibrant rainbow gem-setting, showcasing the brand\'s mastery of both haute horlogerie and decorative arts.',
         price: 248000.00,
         images: ['https://img.chrono24.com/images/uhren/32729340-b48ocvb1mcj9fz41i8xg41va-ExtraLarge.jpg'],
         category: catMap['Audemars Piguet'],
@@ -108,7 +122,7 @@ const seedDB = async () => {
 
       {
         name: 'Royal Oak | Grande Complication | White Ceramic',
-        description: 'This magnificent Grande Complication combines Audemars Piguet’s technical prowess with the striking aesthetics of white ceramic, featuring a highly complex movement housed within the iconic octagonal case.',
+        description: 'This magnificent Grande Complication combines Audemars Piguet\'s technical prowess with the striking aesthetics of white ceramic, featuring a highly complex movement housed within the iconic octagonal case.',
         price: 1420000.00,
         images: ['https://img.chrono24.com/images/uhren/41285536-c6pmr15c6knvapac9kydbbgq-ExtraLarge.jpg'],
         category: catMap['Audemars Piguet'],
@@ -120,7 +134,7 @@ const seedDB = async () => {
 
       {
         name: 'Royal Oak | Perpetual Calendar | Openworked | Catus Jack',
-        description: 'A highly sought-after collaboration, this Royal Oak Perpetual Calendar features an openworked dial and unique design elements inspired by Travis Scott’s Cactus Jack aesthetic.',
+        description: 'A highly sought-after collaboration, this Royal Oak Perpetual Calendar features an openworked dial and unique design elements inspired by Travis Scott\'s Cactus Jack aesthetic.',
         price: 640000.00,
         images: ['https://img.chrono24.com/images/uhren/41285610-bjhkppegi55xyevud06jp8tj-ExtraLarge.jpg'],
         category: catMap['Audemars Piguet'],
@@ -144,7 +158,7 @@ const seedDB = async () => {
 
       {
         name: 'Royal Oak | Skeletonized | Automatic Flywheel | Tourbillon',
-        description: 'This captivating skeletonized timepiece showcases the intricate automatic flywheel tourbillon movement, highlighting Audemars Piguet’s exceptional watchmaking artistry.',
+        description: 'This captivating skeletonized timepiece showcases the intricate automatic flywheel tourbillon movement, highlighting Audemars Piguet\'s exceptional watchmaking artistry.',
         price: 627000.00,
         images: ['https://img.chrono24.com/images/uhren/34397880-ki0x75h09ny5zbkrrlrcrr5c-ExtraLarge.jpg'],
         category: catMap['Audemars Piguet'],
@@ -157,7 +171,7 @@ const seedDB = async () => {
       //Patek Philippe
       {
         name: 'Nautilus | Tiffany & Co. Blue Dial',
-        description: 'A highly sought-after collaboration, this Nautilus features the iconic Tiffany & Co. blue dial, showcasing Patek Philippe’s exceptional watchmaking artistry.',
+        description: 'A highly sought-after collaboration, this Nautilus features the iconic Tiffany & Co. blue dial, showcasing Patek Philippe\'s exceptional watchmaking artistry.',
         price: 1500000.00,
         images: ['https://cdn2.chrono24.com/images/product/159726-9ow4vym7vlq8xxbt5m49ut9w-Large.jpg'],
         category: catMap['Patek Philippe'],
@@ -169,7 +183,7 @@ const seedDB = async () => {
 
       {
         name: 'Celestial Moon | Grand complication',
-        description: 'This exceptional Grand Complication features a captivating celestial moon display, showcasing Patek Philippe’s mastery of both horological artistry and astronomical precision.',
+        description: 'This exceptional Grand Complication features a captivating celestial moon display, showcasing Patek Philippe\'s mastery of both horological artistry and astronomical precision.',
         price: 1600000.00,
         images: ['https://img.chrono24.com/images/uhren/34252830-r6c42lvxxcdp5xtv0wwneezk-ExtraLarge.jpg'],
         category: catMap['Patek Philippe'],
@@ -181,7 +195,7 @@ const seedDB = async () => {
 
       {
         name: 'Perpetual Calendar | Chronograph',
-        description: 'This exceptional Perpetual Calendar Chronograph combines Patek Philippe’s technical prowess with the striking aesthetics of white ceramic, featuring a highly complex movement housed within the iconic octagonal case.',
+        description: 'This exceptional Perpetual Calendar Chronograph combines Patek Philippe\'s technical prowess with the striking aesthetics of white ceramic, featuring a highly complex movement housed within the iconic octagonal case.',
         price: 245000.00,
         images: ['https://img.chrono24.com/images/uhren/42699417-tf6tpfgmsrbliw7xmthnbpcb-ExtraLarge.jpg'],
         category: catMap['Patek Philippe'],
@@ -193,7 +207,7 @@ const seedDB = async () => {
 
       {
         name: 'Nautilus',
-        description: 'This exceptional Nautilus combines Patek Philippe’s technical prowess with the striking aesthetics of white ceramic, featuring a highly complex movement housed within the iconic octagonal case.',
+        description: 'This exceptional Nautilus combines Patek Philippe\'s technical prowess with the striking aesthetics of white ceramic, featuring a highly complex movement housed within the iconic octagonal case.',
         price: 120000.00,
         images: ['https://img.chrono24.com/images/uhren/35216606-xuyiijb6865o7o7e4ts1w40p-ExtraLarge.jpg'],
         category: catMap['Patek Philippe'],
@@ -205,7 +219,7 @@ const seedDB = async () => {
 
       {
         name: 'Aquanaut | Luce "Rainbow" Haute Joaillerie | Minute Repeater',
-        description: 'This exceptional Aquanaut Luce features a captivating rainbow gem-setting, showcasing Patek Philippe’s mastery of both haute horlogerie and decorative arts.',
+        description: 'This exceptional Aquanaut Luce features a captivating rainbow gem-setting, showcasing Patek Philippe\'s mastery of both haute horlogerie and decorative arts.',
         price: 730000.00,
         images: ['https://img.chrono24.com/images/uhren/31744953-qv56opnnfjebla4g1smdyyre-ExtraLarge.jpg'],
         category: catMap['Patek Philippe'],
@@ -218,7 +232,7 @@ const seedDB = async () => {
       //Richard Mille
       {
         name: 'RM 052 | Skull Tourbillon | Rose Gold Limited Edition',
-        description: 'This exceptional RM 052 features a captivating skull tourbillon, showcasing Richard Mille’s mastery of both haute horlogerie and decorative arts.',
+        description: 'This exceptional RM 052 features a captivating skull tourbillon, showcasing Richard Mille\'s mastery of both haute horlogerie and decorative arts.',
         price: 2000000.00,
         images: ['https://img.chrono24.com/images/uhren/32469519-95y9opbuudbfkdnbuz3hees0-ExtraLarge.jpg'],
         category: catMap['Richard Mille'],
@@ -230,7 +244,7 @@ const seedDB = async () => {
 
       {
         name: 'RM 11-03 | "Last White Edition" | Automatic Flyback Chronograph',
-        description: 'This exceptional RM 11-03 features a captivating flyback chronograph movement, showcasing Richard Mille’s mastery of both haute horlogerie and technical innovation.',
+        description: 'This exceptional RM 11-03 features a captivating flyback chronograph movement, showcasing Richard Mille\'s mastery of both haute horlogerie and technical innovation.',
         price: 550000.00,
         images: ['https://img.chrono24.com/images/uhren/34526538-rwkxlrzkkz5v1nvrt7e20yvn-ExtraLarge.jpg'],
         category: catMap['Richard Mille'],
@@ -242,7 +256,7 @@ const seedDB = async () => {
 
       {
         name: 'RM 88 | Tourbillon | Smiley',
-        description: 'This exceptional RM 88 features a captivating tourbillon movement, showcasing Richard Mille’s mastery of both haute horlogerie and technical innovation.',
+        description: 'This exceptional RM 88 features a captivating tourbillon movement, showcasing Richard Mille\'s mastery of both haute horlogerie and technical innovation.',
         price: 4024000.00,
         images: ['https://img.chrono24.com/images/uhren/38350421-lapkti2gscyxa9hszl9zat2v-ExtraLarge.jpg'],
         category: catMap['Richard Mille'],
@@ -254,7 +268,7 @@ const seedDB = async () => {
 
       {
         name: 'RM 055 | Bubba Watson | White Ceramic',
-        description: 'This exceptional RM 055 features a captivating tourbillon movement, showcasing Richard Mille’s mastery of both haute horlogerie and technical innovation.',
+        description: 'This exceptional RM 055 features a captivating tourbillon movement, showcasing Richard Mille\'s mastery of both haute horlogerie and technical innovation.',
         price: 360000.00,
         images: ['https://img.chrono24.com/images/uhren/32833542-2vvreliatzvyaqlvr94cktro-ExtraLarge.jpg'],
         category: catMap['Richard Mille'],
@@ -266,7 +280,7 @@ const seedDB = async () => {
 
       {
         name: 'RM 57-02 | Tourbillon Carbon TPT | Sapphire Dragon',
-        description: 'This exceptional RM 57-02 features a captivating tourbillon movement, showcasing Richard Mille’s mastery of both haute horlogerie and technical innovation.',
+        description: 'This exceptional RM 57-02 features a captivating tourbillon movement, showcasing Richard Mille\'s mastery of both haute horlogerie and technical innovation.',
         price: 1200000.00,
         images: ['https://img.chrono24.com/images/uhren/41591552-zb9feu9d8wip00qasa1biecj-ExtraLarge.jpg'],
         category: catMap['Richard Mille'],
@@ -279,7 +293,7 @@ const seedDB = async () => {
       //Rolex
       {
         name: 'Daytona | Rainbow Bezel',
-        description: 'This exceptional Daytona features a captivating rainbow bezel, showcasing Rolex’s mastery of both haute horlogerie and decorative arts.',
+        description: 'This exceptional Daytona features a captivating rainbow bezel, showcasing Rolex\'s mastery of both haute horlogerie and decorative arts.',
         price: 700000.00,
         images: ['https://img.chrono24.com/images/uhren/30656295-pahnrg7utiqurktjshg3hyum-ExtraLarge.jpg'],
         category: catMap['Rolex'],
@@ -291,7 +305,7 @@ const seedDB = async () => {
 
       {
         name: 'Day-Date | Meteorite Dial',
-        description: 'This exceptional Day-Date features a captivating meteorite dial, showcasing Rolex’s mastery of both haute horlogerie and decorative arts.',
+        description: 'This exceptional Day-Date features a captivating meteorite dial, showcasing Rolex\'s mastery of both haute horlogerie and decorative arts.',
         price: 145000.00,
         images: ['https://img.chrono24.com/images/uhren/36908128-sg4pghpy94jzngsj2ysppvb9-ExtraLarge.jpg'],
         category: catMap['Rolex'],
@@ -303,7 +317,7 @@ const seedDB = async () => {
 
       {
         name: 'Daytona | Blue Carbon | Rainbow Dial',
-        description: 'This exceptional Daytona features a captivating blue carbon dial with a rainbow bezel, showcasing Rolex’s mastery of both haute horlogerie and decorative arts.',
+        description: 'This exceptional Daytona features a captivating blue carbon dial with a rainbow bezel, showcasing Rolex\'s mastery of both haute horlogerie and decorative arts.',
         price: 345000.00,
         images: ['https://about-timepieces.com/wp-content/uploads/2021/02/rainbow-blue_3d_1.jpg'],
         category: catMap['Rolex'],
@@ -315,7 +329,7 @@ const seedDB = async () => {
 
       {
         name: 'Daytona | Eye of the Tiger',
-        description: 'This exceptional Daytona features a captivating eye of the tiger dial, showcasing Rolex’s mastery of both haute horlogerie and decorative arts.',
+        description: 'This exceptional Daytona features a captivating eye of the tiger dial, showcasing Rolex\'s mastery of both haute horlogerie and decorative arts.',
         price: 400000.00,
         images: ['https://img.chrono24.com/images/uhren/26238088-guna6wtswqveb7k822cq1qdg-ExtraLarge.jpg'],
         category: catMap['Rolex'],
@@ -327,7 +341,7 @@ const seedDB = async () => {
 
       {
         name: 'Day-Date | Jigsaw Puzzle Dial',
-        description: 'This exceptional Day-Date features a captivating jigsaw puzzle dial, showcasing Rolex’s mastery of both haute horlogerie and decorative arts.',
+        description: 'This exceptional Day-Date features a captivating jigsaw puzzle dial, showcasing Rolex\'s mastery of both haute horlogerie and decorative arts.',
         price: 315000.00,
         images: ['https://img.chrono24.com/images/uhren/44399674-1q2fwtv32358nnulxgtluudy-ExtraLarge.jpg'],
         category: catMap['Rolex'],
@@ -340,7 +354,7 @@ const seedDB = async () => {
       //Cartier
       {
         name: 'Crash | Skeleton',
-        description: 'This exceptional Crash Skeleton features a captivating skeleton movement, showcasing Cartier’s mastery of both haute horlogerie and decorative arts.',
+        description: 'This exceptional Crash Skeleton features a captivating skeleton movement, showcasing Cartier\'s mastery of both haute horlogerie and decorative arts.',
         price: 577000.00,
         images: ['https://img.chrono24.com/images/uhren/41022556-peyp87luu66g44ysjslexkpg-ExtraLarge.jpg'],
         category: catMap['Cartier'],
@@ -352,7 +366,7 @@ const seedDB = async () => {
 
       {
         name: 'Crash | Paris',
-        description: 'This exceptional Crash Paris features a captivating design, showcasing Cartier’s mastery of both haute horlogerie and decorative arts.',
+        description: 'This exceptional Crash Paris features a captivating design, showcasing Cartier\'s mastery of both haute horlogerie and decorative arts.',
         price: 275000.00,
         images: ['https://img.chrono24.com/images/uhren/41093363-s210u37ay3u2c8bb55es30j1-ExtraLarge.jpg'],
         category: catMap['Cartier'],
@@ -364,7 +378,7 @@ const seedDB = async () => {
 
       {
         name: 'Ballon Bleu | Tourbillon',
-        description: 'This exceptional Ballon Bleu Tourbillon features a captivating tourbillon movement, showcasing Cartier’s mastery of both haute horlogerie and technical innovation.',
+        description: 'This exceptional Ballon Bleu Tourbillon features a captivating tourbillon movement, showcasing Cartier\'s mastery of both haute horlogerie and technical innovation.',
         price: 120000.00,
         images: ['https://img.chrono24.com/images/uhren/44956061-f3nd828o0y3eieouo80laqqe-ExtraLarge.jpg'],
         category: catMap['Cartier'],
@@ -376,7 +390,7 @@ const seedDB = async () => {
 
       {
         name: 'Santos | Factory Set Diamond Bezel',
-        description: 'This exceptional Santos features a captivating factory set diamond bezel, showcasing Cartier’s mastery of both haute horlogerie and decorative arts.',
+        description: 'This exceptional Santos features a captivating factory set diamond bezel, showcasing Cartier\'s mastery of both haute horlogerie and decorative arts.',
         price: 160000.00,
         images: ['https://img.chrono24.com/images/uhren/45266401-v7rv3cz27ptpl9hh97yaemkc-ExtraLarge.jpg'],
         category: catMap['Cartier'],
@@ -388,7 +402,7 @@ const seedDB = async () => {
 
       {
         name: 'Tank | Asymetrique | Skeleton',
-        description: 'This exceptional Tank Asymetrique Skeleton features a captivating skeleton movement, showcasing Cartier’s mastery of both haute horlogerie and technical innovation.',
+        description: 'This exceptional Tank Asymetrique Skeleton features a captivating skeleton movement, showcasing Cartier\'s mastery of both haute horlogerie and technical innovation.',
         price: 120000.00,
         images: ['https://img.chrono24.com/images/uhren/44705034-r4wfv3bafuaebyfchy4n1pv2-ExtraLarge.jpg'],
         category: catMap['Cartier'],
@@ -400,8 +414,8 @@ const seedDB = async () => {
 
       //Omega
       {
-        name: 'De Ville | Central Tourbillon ',
-        description: 'This exceptional De Ville Central Tourbillon features a captivating tourbillon movement, showcasing Omega’s mastery of both haute horlogerie and technical innovation.',
+        name: 'De Ville | Central Tourbillon',
+        description: 'This exceptional De Ville Central Tourbillon features a captivating tourbillon movement, showcasing Omega\'s mastery of both haute horlogerie and technical innovation.',
         price: 242000.00,
         images: ['https://img.chrono24.com/images/uhren/44661002-37ueny3f3rf6ttobcnxrit1d-ExtraLarge.jpg'],
         category: catMap['Omega'],
@@ -413,7 +427,7 @@ const seedDB = async () => {
 
       {
         name: 'Speedmaster Professional | Rainbow Canopus',
-        description: 'This exceptional Speedmaster Professional features a captivating rainbow canopus, showcasing Omega’s mastery of both haute horlogerie and decorative arts.',
+        description: 'This exceptional Speedmaster Professional features a captivating rainbow canopus, showcasing Omega\'s mastery of both haute horlogerie and decorative arts.',
         price: 169000.00,
         images: ['https://img.chrono24.com/images/uhren/37678053-anybykfa5ab4hmpgf3ldoidw-ExtraLarge.jpg'],
         category: catMap['Omega'],
@@ -425,7 +439,7 @@ const seedDB = async () => {
 
       {
         name: 'Seamaster | James Bond | 60th Anniversary',
-        description: 'This exceptional Seamaster features a captivating James Bond 60th anniversary design, showcasing Omega’s mastery of both haute horlogerie and decorative arts.',
+        description: 'This exceptional Seamaster features a captivating James Bond 60th anniversary design, showcasing Omega\'s mastery of both haute horlogerie and decorative arts.',
         price: 150000.00,
         images: ['https://www.omegawatches.com/media/catalog/product/o/m/omega-seamaster-diver-300m-co-axial-master-chronometer-42-mm-21055422099001-watch-wrist-04041c.png'],
         category: catMap['Omega'],
@@ -437,7 +451,7 @@ const seedDB = async () => {
 
       {
         name: 'Speedmaster | Two Counters | Moonphase',
-        description: 'This exceptional Speedmaster features a captivating two counters moonphase design, showcasing Omega’s mastery of both haute horlogerie and decorative arts.',
+        description: 'This exceptional Speedmaster features a captivating two counters moonphase design, showcasing Omega\'s mastery of both haute horlogerie and decorative arts.',
         price: 140000.00,
         images: ['https://img.chrono24.com/images/uhren/44653015-2bweo4qbj6fxd31uygs46lar-ExtraLarge.jpg'],
         category: catMap['Omega'],
@@ -449,7 +463,7 @@ const seedDB = async () => {
 
       {
         name: 'Seamaster | Aqua Terra | World Timer',
-        description: 'This exceptional Seamaster features a captivating world timer design, showcasing Omega’s mastery of both haute horlogerie and decorative arts.',
+        description: 'This exceptional Seamaster features a captivating world timer design, showcasing Omega\'s mastery of both haute horlogerie and decorative arts.',
         price: 110000.00,
         images: ['https://img.chrono24.com/images/uhren/37454441-7m5jwib0kyxu7lrzr6bfqtt8-ExtraLarge.jpg'],
         category: catMap['Omega'],
@@ -462,6 +476,108 @@ const seedDB = async () => {
 
     const createdProducts = await Product.insertMany(products);
     console.log(`Inserted ${createdProducts.length} products`);
+
+    // ── Seed a demo user for relational seed data ──
+    let demoUser = await User.findOne({ email: 'demo@watchstore.com' });
+    if (!demoUser) {
+      demoUser = new User({
+        name: 'Demo User',
+        email: 'demo@watchstore.com',
+        password: 'demo123456',
+        phone: '093630466',
+        address: { street: 'Monivong Blvd', city: 'Phnom Penh', country: 'Cambodia' },
+      });
+      await demoUser.save();
+      console.log('Created demo user');
+    }
+
+    // ── Seed Reviews ──
+    const sampleReviews = [
+      { user: demoUser._id, product: createdProducts[0]._id, rating: 5, title: 'Stunning Timepiece', comment: 'The black ceramic finish is absolutely gorgeous in person. Worth every penny.' },
+      { user: demoUser._id, product: createdProducts[10]._id, rating: 5, title: 'Grail Watch', comment: 'The Tiffany Blue dial is even more stunning in person. A true collector piece.' },
+      { user: demoUser._id, product: createdProducts[15]._id, rating: 4, title: 'Incredible Craftsmanship', comment: 'Richard Mille never disappoints. The skull tourbillon is a conversation starter.' },
+      { user: demoUser._id, product: createdProducts[20]._id, rating: 5, title: 'Rainbow Beauty', comment: 'The Daytona Rainbow Bezel sparkles like nothing else. Absolutely love it.' },
+      { user: demoUser._id, product: createdProducts[25]._id, rating: 4, title: 'Classic Elegance', comment: 'The Crash Skeleton is a true work of art. Cartier at its finest.' },
+    ];
+    const createdReviews = await Review.insertMany(sampleReviews);
+    console.log(`Inserted ${createdReviews.length} reviews`);
+
+    // ── Seed Carts ──
+    const sampleCart = new Cart({
+      user: demoUser._id,
+      items: [
+        { product: createdProducts[0]._id, quantity: 1, size: 'M', color: 'Black Ceramic' },
+        { product: createdProducts[10]._id, quantity: 1, size: 'M', color: 'Tiffany Blue' },
+      ],
+    });
+    await sampleCart.save();
+    console.log('Inserted 1 cart');
+
+    // ── Seed Wishlists ──
+    const sampleWishlist = new Wishlist({
+      user: demoUser._id,
+      products: [
+        createdProducts[5]._id,
+        createdProducts[15]._id,
+        createdProducts[20]._id,
+        createdProducts[25]._id,
+      ],
+    });
+    await sampleWishlist.save();
+    console.log('Inserted 1 wishlist');
+
+    // ── Seed Orders & Payments ──
+    const sampleOrder = new Order({
+      user: demoUser._id,
+      items: [
+        {
+          product: createdProducts[0]._id,
+          name: createdProducts[0].name,
+          price: createdProducts[0].price,
+          quantity: 1,
+          size: 'M',
+          color: 'Black Ceramic',
+        },
+      ],
+      totalPrice: createdProducts[0].price,
+      shippingAddress: { street: 'Monivong Blvd', city: 'Phnom Penh', country: 'Cambodia', phone: '093630466' },
+      status: 'paid',
+      paymentMethod: 'aba_khqr',
+      abaTranId: 'SEED_TXN_001',
+    });
+    await sampleOrder.save();
+
+    const samplePayment = new Payment({
+      user: demoUser._id,
+      order: sampleOrder._id,
+      transactionId: 'SEED_TXN_001',
+      amount: createdProducts[0].price,
+      currency: 'USD',
+      method: 'aba_khqr',
+      status: 'approved',
+    });
+    await samplePayment.save();
+    console.log('Inserted 1 payment');
+
+    // ── Seed Addresses ──
+    const sampleAddresses = [
+      { user: demoUser._id, label: 'Home', street: 'Monivong Blvd', city: 'Phnom Penh', country: 'Cambodia', phone: '093630466', isDefault: true },
+      { user: demoUser._id, label: 'Office', street: 'Norodom Blvd', city: 'Phnom Penh', country: 'Cambodia', phone: '093630467', isDefault: false },
+      { user: demoUser._id, label: 'Partner', street: 'Sisowath Quay', city: 'Phnom Penh', country: 'Cambodia', phone: '093630468', isDefault: false },
+    ];
+    const createdAddresses = await Address.insertMany(sampleAddresses);
+    console.log(`Inserted ${createdAddresses.length} addresses`);
+
+    // ── Seed Coupons ──
+    const sampleCoupons = [
+      { code: 'WELCOME10', discountPercent: 10, maxDiscount: 50000, minPurchase: 100000, expiresAt: new Date('2027-12-31'), isActive: true, usageLimit: 500, usedCount: 0 },
+      { code: 'LUXURY20', discountPercent: 20, maxDiscount: 200000, minPurchase: 500000, expiresAt: new Date('2027-06-30'), isActive: true, usageLimit: 100, usedCount: 12 },
+      { code: 'VIP30', discountPercent: 30, maxDiscount: 500000, minPurchase: 1000000, expiresAt: new Date('2027-03-31'), isActive: true, usageLimit: 50, usedCount: 5 },
+      { code: 'NEWYEAR25', discountPercent: 25, maxDiscount: 300000, minPurchase: 200000, expiresAt: new Date('2027-01-31'), isActive: true, usageLimit: 200, usedCount: 45 },
+      { code: 'FLASH15', discountPercent: 15, maxDiscount: 100000, minPurchase: 150000, expiresAt: new Date('2027-09-30'), isActive: true, usageLimit: 300, usedCount: 78 },
+    ];
+    const createdCoupons = await Coupon.insertMany(sampleCoupons);
+    console.log(`Inserted ${createdCoupons.length} coupons`);
 
     console.log('Database seeded successfully!');
     process.exit(0);

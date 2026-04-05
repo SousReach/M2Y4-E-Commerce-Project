@@ -88,7 +88,7 @@ router.post('/generate-qr', async (req, res) => {
     const purchase_type = '';
     const payout = '';
 
-    // ── Hash: exact field order from official ABA SDK generateQR ──
+    // Hash: exact field order from official ABA SDK generateQR ──
     const hash = createHash([
       req_time,
       process.env.ABA_MERCHANT_ID,
@@ -111,7 +111,7 @@ router.post('/generate-qr', async (req, res) => {
       qr_image_template,
     ]);
 
-    // Link ABA tran_id to the order in the DB
+    //Link ABA tran_id to the order in the DB
     if (orderId) {
       await Order.findByIdAndUpdate(orderId, {
         abaTranId: tran_id,
@@ -119,7 +119,7 @@ router.post('/generate-qr', async (req, res) => {
       });
     }
 
-    // ── Build JSON body (filterParams removes empty values) ──
+    //Build JSON body (filterParams removes empty values)
     const body = filterParams({
       hash,
       req_time,
@@ -174,7 +174,7 @@ router.post('/generate-qr', async (req, res) => {
         response.data.khqr;
 
       if (!qr) {
-        console.error('❌ PayWay returned success but no qr field. Full payload:', response.data);
+        console.error('PayWay returned success but no qr field. Full payload:', response.data);
         return res.status(502).json({
           message: 'PayWay returned success but no QR field found',
           tran_id,

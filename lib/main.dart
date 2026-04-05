@@ -15,6 +15,7 @@ import 'screens/checkout_screen.dart';
 import 'screens/order_history_screen.dart';
 import 'screens/profile_screen.dart';
 import 'screens/payment_screen.dart';
+import 'screens/edit_profile_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -48,6 +49,7 @@ class MyApp extends StatelessWidget {
           '/checkout': (context) => const CheckoutScreen(),
           '/orders': (context) => const OrderHistoryScreen(),
           '/profile': (context) => const ProfileScreen(),
+          '/edit-profile': (context) => const EditProfileScreen(),
           '/payment': (context) => const PaymentScreen(),
         },
       ),

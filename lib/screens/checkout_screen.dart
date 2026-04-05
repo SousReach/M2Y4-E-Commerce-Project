@@ -5,6 +5,7 @@ import '../config/theme.dart';
 import '../utils/price_formatter.dart';
 import '../providers/cart_provider.dart';
 import '../providers/order_provider.dart';
+import '../providers/auth_provider.dart';
 import '../models/order.dart';
 import '../widgets/custom_text_field.dart';
 import '../widgets/custom_button.dart';
@@ -26,6 +27,20 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
   // Payment method: 'cash' or 'aba_khqr'
   String _paymentMethod = 'cash';
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final user = context.read<AuthProvider>().user;
+      if (user != null) {
+        _streetController.text = user.address.street;
+        _cityController.text = user.address.city;
+        _countryController.text = user.address.country;
+        _phoneController.text = user.phone;
+      }
+    });
+  }
 
   @override
   void dispose() {

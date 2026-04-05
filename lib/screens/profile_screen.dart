@@ -9,7 +9,17 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Profile')),
+      appBar: AppBar(
+        title: const Text('Profile'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.edit_outlined),
+            onPressed: () {
+              Navigator.pushNamed(context, '/edit-profile');
+            },
+          ),
+        ],
+      ),
       body: Consumer<AuthProvider>(
         builder: (context, auth, _) {
           final user = auth.user;

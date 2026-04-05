@@ -1179,11 +1179,7 @@ class _HomeScreenState extends State<HomeScreen> {
               'Edit Profile',
               () => Navigator.pushNamed(context, '/profile'),
             ),
-            _profileTile(
-              Icons.location_on_outlined,
-              'Saved Addresses',
-              () => _showComingSoon(context),
-            ),
+
             _profileTile(
               Icons.payment_outlined,
               'Payment Methods',

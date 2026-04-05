@@ -43,6 +43,23 @@ class AuthService {
     return User.fromJson(data);
   }
 
+  static Future<User> updateProfile(
+    String name,
+    String phone,
+    Map<String, String> address,
+  ) async {
+    final data = await ApiService.put(
+      ApiConfig.profile,
+      {
+        'name': name,
+        'phone': phone,
+        'address': address,
+      },
+      auth: true,
+    );
+    return User.fromJson(data);
+  }
+
   static Future<void> logout() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove('token');
