@@ -5,6 +5,7 @@ import 'providers/auth_provider.dart';
 import 'providers/product_provider.dart';
 import 'providers/cart_provider.dart';
 import 'providers/order_provider.dart';
+import 'providers/wishlist_provider.dart';
 import 'screens/login_screen.dart';
 import 'screens/register_screen.dart';
 import 'screens/home_screen.dart';
@@ -16,6 +17,8 @@ import 'screens/order_history_screen.dart';
 import 'screens/profile_screen.dart';
 import 'screens/payment_screen.dart';
 import 'screens/edit_profile_screen.dart';
+import 'screens/wishlist_screen.dart';
+import 'screens/order_tracking_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -32,6 +35,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ProductProvider()),
         ChangeNotifierProvider(create: (_) => CartProvider()),
         ChangeNotifierProvider(create: (_) => OrderProvider()),
+        ChangeNotifierProvider(create: (_) => WishlistProvider()),
       ],
       child: MaterialApp(
         title: 'Stylish - Fashion Store',
@@ -51,6 +55,8 @@ class MyApp extends StatelessWidget {
           '/profile': (context) => const ProfileScreen(),
           '/edit-profile': (context) => const EditProfileScreen(),
           '/payment': (context) => const PaymentScreen(),
+          '/wishlist': (context) => const WishlistScreen(),
+          '/order-tracking': (context) => const OrderTrackingScreen(),
         },
       ),
     );

@@ -73,7 +73,13 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
             itemCount: provider.orders.length,
             itemBuilder: (context, index) {
               final order = provider.orders[index];
-              return Container(
+              return GestureDetector(
+                onTap: () => Navigator.pushNamed(
+                  context,
+                  '/order-tracking',
+                  arguments: {'orderId': order.id},
+                ),
+                child: Container(
                 margin: const EdgeInsets.only(bottom: 12),
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
@@ -165,6 +171,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
                       ],
                     ),
                   ],
+                ),
                 ),
               );
             },

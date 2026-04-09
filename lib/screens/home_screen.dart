@@ -1181,6 +1181,12 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
 
             _profileTile(
+              Icons.favorite_border,
+              'My Wishlist',
+              () => Navigator.pushNamed(context, '/wishlist'),
+            ),
+
+            _profileTile(
               Icons.payment_outlined,
               'Payment Methods',
               () => _showComingSoon(context),

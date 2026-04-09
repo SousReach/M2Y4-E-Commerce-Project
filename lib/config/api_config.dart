@@ -29,8 +29,21 @@ class ApiConfig {
 
   // Orders
   static const String orders = '$baseUrl/orders';
+  static String orderById(String id) => '$baseUrl/orders/$id';
 
   // Payment (ABA PayWay KHQR)
   static const String paymentGenerateQr = '$baseUrl/payment/generate-qr';
   static const String paymentCheckStatus = '$baseUrl/payment/check-status';
+
+  // Wishlist
+  static const String wishlist = '$baseUrl/wishlists';
+  static const String wishlistAdd = '$baseUrl/wishlists/add';
+  static String wishlistRemove(String productId) =>
+      '$baseUrl/wishlists/remove/$productId';
+
+  // Coupons
+  static const String couponValidate = '$baseUrl/coupons/validate';
+
+  // Addresses
+  static const String addresses = '$baseUrl/addresses';
 }

@@ -20,4 +20,9 @@ class OrderService {
     final data = await ApiService.get(ApiConfig.orders, auth: true);
     return (data as List).map((json) => Order.fromJson(json)).toList();
   }
+
+  static Future<Order> getOrderById(String id) async {
+    final data = await ApiService.get(ApiConfig.orderById(id), auth: true);
+    return Order.fromJson(data);
+  }
 }

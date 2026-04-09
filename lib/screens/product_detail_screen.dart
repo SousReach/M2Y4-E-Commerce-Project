@@ -5,6 +5,7 @@ import '../config/theme.dart';
 import '../utils/price_formatter.dart';
 import '../providers/product_provider.dart';
 import '../providers/cart_provider.dart';
+import '../providers/wishlist_provider.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   const ProductDetailScreen({super.key});
@@ -74,6 +75,46 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                 icon: const Icon(Icons.arrow_back, size: 20),
                                 onPressed: () => Navigator.pop(context),
                               ),
+                            ),
+                          ),
+                          Positioned(
+                            top: MediaQuery.of(context).padding.top + 8,
+                            right: 12,
+                            child: Consumer<WishlistProvider>(
+                              builder: (context, wishlist, _) {
+                                final isFav = wishlist.contains(product.id);
+                                return CircleAvatar(
+                                  backgroundColor: Colors.white,
+                                  child: IconButton(
+                                    icon: Icon(
+                                      isFav
+                                          ? Icons.favorite
+                                          : Icons.favorite_border,
+                                      size: 20,
+                                      color: isFav
+                                          ? AppTheme.error
+                                          : AppTheme.textPrimary,
+                                    ),
+                                    onPressed: () async {
+                                      try {
+                                        await wishlist.toggle(product.id);
+                                      } catch (_) {
+                                        if (!context.mounted) return;
+                                        ScaffoldMessenger.of(
+                                          context,
+                                        ).showSnackBar(
+                                          const SnackBar(
+                                            content: Text(
+                                              'Failed to update wishlist',
+                                            ),
+                                            backgroundColor: AppTheme.error,
+                                          ),
+                                        );
+                                      }
+                                    },
+                                  ),
+                                );
+                              },
                             ),
                           ),
                         ],
