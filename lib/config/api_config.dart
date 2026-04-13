@@ -30,6 +30,7 @@ class ApiConfig {
   // Orders
   static const String orders = '$baseUrl/orders';
   static String orderById(String id) => '$baseUrl/orders/$id';
+  static String orderCancel(String id) => '$baseUrl/orders/$id/cancel';
 
   // Payment (ABA PayWay KHQR)
   static const String paymentGenerateQr = '$baseUrl/payment/generate-qr';

@@ -8,10 +8,12 @@ import '../providers/auth_provider.dart';
 import '../providers/product_provider.dart';
 import '../providers/cart_provider.dart';
 import '../providers/order_provider.dart';
+import '../providers/wishlist_provider.dart';
 import '../screens/cart_screen.dart';
 import '../widgets/product_card.dart';
 import '../widgets/category_card.dart';
 import '../utils/price_formatter.dart';
+import '../services/search_history_service.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -25,6 +27,10 @@ class _HomeScreenState extends State<HomeScreen> {
   final PageController _bannerController = PageController();
   Timer? _bannerTimer;
   int _currentBannerPage = 0;
+
+  // Search history
+  List<String> _searchHistory = [];
+  final _searchController = TextEditingController();
 
   final List<_BannerData> _banners = const [
     _BannerData(
@@ -55,15 +61,32 @@ class _HomeScreenState extends State<HomeScreen> {
       context.read<ProductProvider>().loadFeaturedProducts();
       context.read<ProductProvider>().loadProducts();
       context.read<CartProvider>().loadCart();
+      context.read<WishlistProvider>().loadWishlist();
     });
     _startBannerAutoScroll();
+    _loadSearchHistory();
   }
 
   @override
   void dispose() {
     _bannerTimer?.cancel();
     _bannerController.dispose();
+    _searchController.dispose();
     super.dispose();
+  }
+
+  Future<void> _loadSearchHistory() async {
+    final history = await SearchHistoryService.getHistory();
+    if (!mounted) return;
+    setState(() => _searchHistory = history);
+  }
+
+  Future<void> _performSearch(String query) async {
+    if (query.trim().isEmpty) return;
+    await SearchHistoryService.addSearch(query);
+    if (!mounted) return;
+    context.read<ProductProvider>().loadProducts(query: query);
+    _loadSearchHistory();
   }
 
   void _startBannerAutoScroll() {
@@ -170,24 +193,61 @@ class _HomeScreenState extends State<HomeScreen> {
             // Header
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 16, 20, 0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Consumer<AuthProvider>(
-                    builder: (context, auth, _) => Text(
-                      'Hi, ${auth.user?.name ?? 'there'} ',
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                      ),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Consumer<AuthProvider>(
+                          builder: (context, auth, _) => Text(
+                            'Hi, ${auth.user?.name ?? 'there'} ',
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          'Welcome to Timeless Timepiece',
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: AppTheme.textSecondary,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  const SizedBox(height: 2),
-                  Text(
-                    'Welcome to Timeless Timepiece',
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: AppTheme.textSecondary,
+                  // Wishlist icon
+                  Consumer<WishlistProvider>(
+                    builder: (context, wishlist, _) => GestureDetector(
+                      onTap: () => Navigator.pushNamed(context, '/wishlist'),
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFF7F4EF),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Badge(
+                          isLabelVisible: wishlist.count > 0,
+                          label: Text(
+                            '${wishlist.count}',
+                            style: const TextStyle(fontSize: 10),
+                          ),
+                          backgroundColor: AppTheme.error,
+                          child: Icon(
+                            wishlist.count > 0
+                                ? Icons.favorite
+                                : Icons.favorite_border,
+                            color: wishlist.count > 0
+                                ? AppTheme.error
+                                : AppTheme.textSecondary,
+                            size: 22,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ],
@@ -453,12 +513,25 @@ class _HomeScreenState extends State<HomeScreen> {
           Padding(
             padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
             child: TextField(
+              controller: _searchController,
               onSubmitted: (query) {
-                context.read<ProductProvider>().loadProducts(query: query);
+                _performSearch(query);
               },
               decoration: InputDecoration(
                 hintText: 'Search watches, brands...',
                 prefixIcon: const Icon(Icons.search, size: 20),
+                suffixIcon: _searchController.text.isNotEmpty
+                    ? IconButton(
+                        icon: const Icon(Icons.close, size: 18),
+                        onPressed: () {
+                          _searchController.clear();
+                          context
+                              .read<ProductProvider>()
+                              .loadProducts(query: '');
+                          setState(() {});
+                        },
+                      )
+                    : null,
                 filled: true,
                 fillColor: const Color(0xFFF7F4EF),
                 border: OutlineInputBorder(
@@ -466,8 +539,80 @@ class _HomeScreenState extends State<HomeScreen> {
                   borderSide: BorderSide.none,
                 ),
               ),
+              onChanged: (_) => setState(() {}),
             ),
           ),
+
+          // Recent searches
+          if (_searchHistory.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 10, 12, 0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Recent Searches',
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: AppTheme.textSecondary,
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () async {
+                          await SearchHistoryService.clearHistory();
+                          _loadSearchHistory();
+                        },
+                        style: TextButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          minimumSize: Size.zero,
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        ),
+                        child: Text(
+                          'Clear',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: AppTheme.error,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Wrap(
+                    spacing: 6,
+                    runSpacing: 4,
+                    children: _searchHistory.map((q) {
+                      return GestureDetector(
+                        onTap: () {
+                          _searchController.text = q;
+                          _performSearch(q);
+                        },
+                        child: Chip(
+                          label: Text(q),
+                          labelStyle: TextStyle(
+                            fontSize: 12,
+                            color: AppTheme.textSecondary,
+                          ),
+                          backgroundColor: const Color(0xFFF7F4EF),
+                          side: BorderSide(color: AppTheme.divider),
+                          visualDensity: VisualDensity.compact,
+                          materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
+                          deleteIcon: const Icon(Icons.close, size: 14),
+                          onDeleted: () async {
+                            await SearchHistoryService.removeSearch(q);
+                            _loadSearchHistory();
+                          },
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ],
+              ),
+            ),
 
           // Category chips
           Consumer<ProductProvider>(

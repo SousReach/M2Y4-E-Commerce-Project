@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const path = require('path');
 require('dotenv').config();
 
 const authRoutes = require('./routes/auth');
@@ -14,6 +15,7 @@ const wishlistRoutes = require('./routes/wishlists');
 const paymentsLogRoutes = require('./routes/payments-log');
 const addressRoutes = require('./routes/addresses');
 const couponRoutes = require('./routes/coupons');
+const adminRoutes = require('./routes/admin');
 
 const app = express();
 
@@ -32,6 +34,10 @@ app.use('/api/wishlists', wishlistRoutes);
 app.use('/api/payments-log', paymentsLogRoutes);
 app.use('/api/addresses', addressRoutes);
 app.use('/api/coupons', couponRoutes);
+app.use('/api/admin', adminRoutes);
+
+// Serve admin panel
+app.use('/admin', express.static(path.join(__dirname, 'admin')));
 
 // Health check on the API
 app.get('/', (req, res) => {

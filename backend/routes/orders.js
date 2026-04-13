@@ -62,4 +62,27 @@ router.get('/:id', auth, async (req, res) => {
   }
 });
 
+// Cancel a pending order
+router.put('/:id/cancel', auth, async (req, res) => {
+  try {
+    const order = await Order.findOne({
+      _id: req.params.id,
+      user: req.userId,
+    });
+    if (!order) {
+      return res.status(404).json({ message: 'Order not found' });
+    }
+    if (order.status !== 'pending') {
+      return res.status(400).json({
+        message: 'Only pending orders can be cancelled',
+      });
+    }
+    order.status = 'cancelled';
+    await order.save();
+    res.json(order);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 module.exports = router;

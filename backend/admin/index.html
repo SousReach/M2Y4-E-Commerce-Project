@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin</title>
+  <style>
+    /* ── Reset & Variables ─────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary: #004643;
+      --primary-light: #00665e;
+      --accent: #C9A96E;
+      --bg: #F0EDE5;
+      --surface: #FFFFFF;
+      --text: #1A1A1A;
+      --text-sec: #6B6560;
+      --divider: #DDD8D0;
+      --error: #D32F2F;
+      --success: #388E3C;
+      --info: #1976D2;
+      --warning: #F57C00;
+      --radius: 12px;
+      --sidebar-w: 240px;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* ── Sidebar ───────────────────────────────────── */
+    .sidebar {
+      width: var(--sidebar-w);
+      background: var(--primary);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      z-index: 100;
+    }
+
+    .sidebar-brand {
+      padding: 24px 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .sidebar-brand h1 {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+    }
+
+    .sidebar-brand small {
+      font-size: 11px;
+      opacity: 0.6;
+      font-weight: 400;
+    }
+
+    .sidebar-nav {
+      flex: 1;
+      padding: 16px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.7);
+      transition: all 0.15s;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+    }
+
+    .nav-item:hover { background: rgba(255,255,255,0.08); color: white; }
+    .nav-item.active { background: rgba(255,255,255,0.15); color: white; font-weight: 600; }
+    .nav-item svg { width: 20px; height: 20px; flex-shrink: 0; }
+
+    /* ── Main ──────────────────────────────────────── */
+    .main {
+      margin-left: var(--sidebar-w);
+      flex: 1;
+      padding: 28px 32px;
+      min-height: 100vh;
+    }
+
+    .page-header {
+      margin-bottom: 24px;
+    }
+
+    .page-header h2 {
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .page-header p {
+      font-size: 13px;
+      color: var(--text-sec);
+      margin-top: 4px;
+    }
+
+    /* ── Cards & Stats ─────────────────────────────── */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 20px;
+      border: 1px solid var(--divider);
+    }
+
+    .stat-card .label {
+      font-size: 12px;
+      color: var(--text-sec);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .stat-card .value {
+      font-size: 28px;
+      font-weight: 700;
+      margin-top: 4px;
+      color: var(--primary);
+    }
+
+    .stat-card .value.gold { color: var(--accent); }
+
+    /* ── Tables ─────────────────────────────────────── */
+    .card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      border: 1px solid var(--divider);
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+
+    .card-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--divider);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .card-header h3 {
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    thead th {
+      text-align: left;
+      padding: 10px 16px;
+      background: #F7F4EF;
+      color: var(--text-sec);
+      font-weight: 600;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid var(--divider);
+    }
+
+    tbody td {
+      padding: 12px 16px;
+      border-bottom: 1px solid #f0ede5;
+      vertical-align: middle;
+    }
+
+    tbody tr:hover { background: #FAFAF7; }
+    tbody tr:last-child td { border-bottom: none; }
+
+    /* ── Badges ─────────────────────────────────────── */
+    .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .badge-pending   { background: #FFF3E0; color: var(--warning); }
+    .badge-paid      { background: #E3F2FD; color: var(--info); }
+    .badge-confirmed { background: #E3F2FD; color: var(--info); }
+    .badge-shipped   { background: #FFF3E0; color: var(--warning); }
+    .badge-delivered { background: #E8F5E9; color: var(--success); }
+    .badge-cancelled { background: #FFEBEE; color: var(--error); }
+    .badge-featured  { background: #FFF8E1; color: #F9A825; }
+    .badge-low-stock { background: #FFEBEE; color: var(--error); }
+
+    /* ── Buttons ────────────────────────────────────── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.15s;
+    }
+
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-primary:hover { background: var(--primary-light); }
+    .btn-accent { background: var(--accent); color: white; }
+    .btn-accent:hover { opacity: 0.9; }
+    .btn-danger { background: var(--error); color: white; }
+    .btn-danger:hover { opacity: 0.9; }
+    .btn-outline {
+      background: transparent;
+      color: var(--primary);
+      border: 1.5px solid var(--primary);
+    }
+    .btn-outline:hover { background: var(--primary); color: white; }
+
+    .btn-sm { padding: 5px 10px; font-size: 12px; }
+    .btn-icon { padding: 6px; border-radius: 6px; }
+
+    /* ── Forms / Modal ──────────────────────────────── */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+    }
+
+    .modal {
+      background: var(--surface);
+      border-radius: 16px;
+      width: 520px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    }
+
+    .modal-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--divider);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-header h3 { font-size: 16px; font-weight: 600; }
+
+    .modal-body { padding: 24px; }
+
+    .modal-footer {
+      padding: 16px 24px;
+      border-top: 1px solid var(--divider);
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-sec);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid var(--divider);
+      border-radius: 8px;
+      font-size: 14px;
+      background: #F7F4EF;
+      color: var(--text);
+      font-family: inherit;
+      outline: none;
+      transition: border 0.15s;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--primary);
+    }
+
+    .form-group textarea { resize: vertical; min-height: 80px; }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .form-check {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .form-check input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: var(--primary);
+    }
+
+    /* ── Status select ──────────────────────────────── */
+    select.status-select {
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      border: 1.5px solid var(--divider);
+      background: white;
+      cursor: pointer;
+    }
+
+    /* ── Product image thumbnail ─────────────────── */
+    .thumb {
+      width: 40px;
+      height: 40px;
+      border-radius: 6px;
+      object-fit: cover;
+      background: #f0ede5;
+    }
+
+    /* ── Empty state ──────────────────────────────── */
+    .empty {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-sec);
+      font-size: 14px;
+    }
+
+    /* ── Loading spinner ──────────────────────────── */
+    .spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 2.5px solid var(--divider);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .loading-center {
+      display: flex;
+      justify-content: center;
+      padding: 40px;
+    }
+
+    /* ── Toast ────────────────────────────────────── */
+    .toast-container {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 300;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .toast {
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      color: white;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      animation: slideIn 0.3s ease;
+    }
+
+    .toast-success { background: var(--success); }
+    .toast-error { background: var(--error); }
+
+    @keyframes slideIn {
+      from { transform: translateX(40px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    /* ── Responsive ───────────────────────────────── */
+    @media (max-width: 768px) {
+      .sidebar { width: 60px; }
+      .sidebar-brand h1, .sidebar-brand small, .nav-item span { display: none; }
+      .sidebar-nav { padding: 16px 6px; }
+      .nav-item { justify-content: center; padding: 10px; }
+      .main { margin-left: 60px; padding: 16px; }
+      .form-row { grid-template-columns: 1fr; }
+      .modal { width: 95%; }
+    }
+  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <h1>Timeless Timepiece</h1>
+      <small>Admin Dashboard</small>
+    </div>
+    <nav class="sidebar-nav">
+      <button class="nav-item active" onclick="showPage('dashboard')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        <span>Dashboard</span>
+      </button>
+      <button class="nav-item" onclick="showPage('products')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span>Products</span>
+      </button>
+      <button class="nav-item" onclick="showPage('orders')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        <span>Orders</span>
+      </button>
+      <button class="nav-item" onclick="showPage('categories')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+        <span>Categories</span>
+      </button>
+      <button class="nav-item" onclick="showPage('users')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+        <span>Users</span>
+      </button>
+    </nav>
+  </aside>
+
+  <!-- Main content -->
+  <main class="main" id="mainContent"></main>
+
+  <!-- Toast container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+<script>
+// ── Config ────────────────────────────────────────────────
+const API = 'http://localhost:5000/api/admin';
+
+// ── State ─────────────────────────────────────────────────
+let currentPage = 'dashboard';
+let categories = []; // cached for product form
+
+// ── Helpers ───────────────────────────────────────────────
+function $(sel) { return document.querySelector(sel); }
+function $$(sel) { return document.querySelectorAll(sel); }
+
+async function api(path, opts = {}) {
+  const res = await fetch(API + path, {
+    headers: { 'Content-Type': 'application/json', ...opts.headers },
+    ...opts,
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || 'Request failed');
+  return data;
+}
+
+function toast(msg, type = 'success') {
+  const el = document.createElement('div');
+  el.className = `toast toast-${type}`;
+  el.textContent = msg;
+  document.getElementById('toastContainer').appendChild(el);
+  setTimeout(() => el.remove(), 3000);
+}
+
+function formatPrice(n) {
+  return '$' + Number(n).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+}
+
+function formatDate(d) {
+  const dt = new Date(d);
+  return dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+function statusBadge(status) {
+  return `<span class="badge badge-${status}">${status}</span>`;
+}
+
+function closeModal() {
+  const el = document.getElementById('modalOverlay');
+  if (el) el.remove();
+}
+
+function renderModal(title, bodyHtml, footerHtml) {
+  closeModal();
+  const div = document.createElement('div');
+  div.id = 'modalOverlay';
+  div.className = 'modal-overlay';
+  div.innerHTML = `
+    <div class="modal">
+      <div class="modal-header">
+        <h3>${title}</h3>
+        <button class="btn btn-icon" onclick="closeModal()" style="background:none;font-size:18px;">&times;</button>
+      </div>
+      <div class="modal-body">${bodyHtml}</div>
+      ${footerHtml ? `<div class="modal-footer">${footerHtml}</div>` : ''}
+    </div>
+  `;
+  div.addEventListener('click', (e) => { if (e.target === div) closeModal(); });
+  document.body.appendChild(div);
+}
+
+// ── Navigation ────────────────────────────────────────────
+function showPage(page) {
+  currentPage = page;
+  $$('.nav-item').forEach(el => el.classList.remove('active'));
+  $$('.nav-item')[['dashboard','products','orders','categories','users'].indexOf(page)]?.classList.add('active');
+
+  const main = document.getElementById('mainContent');
+  main.innerHTML = '<div class="loading-center"><div class="spinner"></div></div>';
+
+  switch(page) {
+    case 'dashboard': loadDashboard(); break;
+    case 'products': loadProducts(); break;
+    case 'orders': loadOrders(); break;
+    case 'categories': loadCategories(); break;
+    case 'users': loadUsers(); break;
+  }
+}
+
+// ── Dashboard ─────────────────────────────────────────────
+async function loadDashboard() {
+  try {
+    const data = await api('/stats');
+    const main = document.getElementById('mainContent');
+    const statusMap = {};
+    data.ordersByStatus.forEach(s => statusMap[s._id] = s.count);
+
+    main.innerHTML = `
+      <div class="page-header">
+        <h2>Dashboard</h2>
+        <p>Overview of your watch store</p>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="label">Total Revenue</div>
+          <div class="value gold">${formatPrice(data.totalRevenue)}</div>
+        </div>
+        <div class="stat-card">
+          <div class="label">Orders</div>
+          <div class="value">${data.totalOrders}</div>
+        </div>
+        <div class="stat-card">
+          <div class="label">Products</div>
+          <div class="value">${data.totalProducts}</div>
+        </div>
+        <div class="stat-card">
+          <div class="label">Customers</div>
+          <div class="value">${data.totalUsers}</div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+        <!-- Order Status Breakdown -->
+        <div class="card">
+          <div class="card-header"><h3>Orders by Status</h3></div>
+          <table>
+            <thead><tr><th>Status</th><th style="text-align:right">Count</th></tr></thead>
+            <tbody>
+              ${['pending','paid','confirmed','shipped','delivered','cancelled'].map(s => `
+                <tr>
+                  <td>${statusBadge(s)}</td>
+                  <td style="text-align:right;font-weight:600;">${statusMap[s] || 0}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Low Stock -->
+        <div class="card">
+          <div class="card-header"><h3>Low Stock Alert</h3></div>
+          ${data.lowStockProducts.length === 0
+            ? '<div class="empty">All products are well stocked</div>'
+            : `<table>
+                <thead><tr><th>Product</th><th style="text-align:right">Stock</th></tr></thead>
+                <tbody>
+                  ${data.lowStockProducts.map(p => `
+                    <tr>
+                      <td>${p.name}</td>
+                      <td style="text-align:right"><span class="badge badge-low-stock">${p.stock}</span></td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>`
+          }
+        </div>
+      </div>
+
+      <!-- Recent Orders -->
+      <div class="card">
+        <div class="card-header"><h3>Recent Orders</h3></div>
+        <table>
+          <thead><tr><th>Order</th><th>Customer</th><th>Total</th><th>Status</th><th>Date</th></tr></thead>
+          <tbody>
+            ${data.recentOrders.map(o => `
+              <tr>
+                <td style="font-weight:600;">#${o._id.slice(-6)}</td>
+                <td>${o.user?.name || 'Unknown'}</td>
+                <td>${formatPrice(o.totalPrice)}</td>
+                <td>${statusBadge(o.status)}</td>
+                <td style="color:var(--text-sec);">${formatDate(o.createdAt)}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    `;
+  } catch(err) {
+    document.getElementById('mainContent').innerHTML = `<div class="empty">Failed to load dashboard: ${err.message}</div>`;
+  }
+}
+
+// ── Products ──────────────────────────────────────────────
+async function loadProducts() {
+  try {
+    const [products, cats] = await Promise.all([api('/products'), api('/categories')]);
+    categories = cats;
+    const main = document.getElementById('mainContent');
+    main.innerHTML = `
+      <div class="page-header" style="display:flex;justify-content:space-between;align-items:center;">
+        <div>
+          <h2>Products</h2>
+          <p>${products.length} watches in store</p>
+        </div>
+        <button class="btn btn-primary" onclick="openProductForm()">+ Add Product</button>
+      </div>
+
+      <div class="card">
+        <table>
+          <thead>
+            <tr><th></th><th>Name</th><th>Category</th><th>Price</th><th>Stock</th><th>Featured</th><th style="text-align:right">Actions</th></tr>
+          </thead>
+          <tbody>
+            ${products.length === 0 ? '<tr><td colspan="7" class="empty">No products yet</td></tr>' : products.map(p => `
+              <tr>
+                <td><img class="thumb" src="${p.images?.[0] || ''}" alt="" onerror="this.style.display='none'"></td>
+                <td style="font-weight:500;">${p.name}</td>
+                <td style="color:var(--text-sec);">${p.category?.name || '-'}</td>
+                <td style="font-weight:600;">${formatPrice(p.price)}</td>
+                <td>${p.stock <= 5 ? `<span class="badge badge-low-stock">${p.stock}</span>` : p.stock}</td>
+                <td>${p.isFeatured ? '<span class="badge badge-featured">Featured</span>' : '-'}</td>
+                <td style="text-align:right;">
+                  <button class="btn btn-outline btn-sm" onclick='openProductForm(${JSON.stringify(p).replace(/'/g,"&#39;")})'>Edit</button>
+                  <button class="btn btn-danger btn-sm" onclick="deleteProduct('${p._id}','${p.name.replace(/'/g,"\\'")}')">Delete</button>
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    `;
+  } catch(err) {
+    document.getElementById('mainContent').innerHTML = `<div class="empty">Failed to load products: ${err.message}</div>`;
+  }
+}
+
+function openProductForm(product = null) {
+  const isEdit = !!product;
+  const body = `
+    <div class="form-group">
+      <label>Name</label>
+      <input id="pName" value="${product?.name || ''}" placeholder="Watch name">
+    </div>
+    <div class="form-group">
+      <label>Description</label>
+      <textarea id="pDesc" placeholder="Product description">${product?.description || ''}</textarea>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Price ($)</label>
+        <input id="pPrice" type="number" step="0.01" value="${product?.price || ''}" placeholder="0.00">
+      </div>
+      <div class="form-group">
+        <label>Stock</label>
+        <input id="pStock" type="number" value="${product?.stock ?? 0}" placeholder="0">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Category</label>
+      <select id="pCategory">
+        <option value="">Select category</option>
+        ${categories.map(c => `<option value="${c._id}" ${(product?.category?._id || product?.category) === c._id ? 'selected' : ''}>${c.name}</option>`).join('')}
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Image URLs (one per line)</label>
+      <textarea id="pImages" placeholder="https://...">${(product?.images || []).join('\n')}</textarea>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Sizes (comma separated)</label>
+        <input id="pSizes" value="${(product?.sizes || []).join(', ')}" placeholder="S, M, L, XL">
+      </div>
+      <div class="form-group">
+        <label>Colors (comma separated)</label>
+        <input id="pColors" value="${(product?.colors || []).join(', ')}" placeholder="Black, Silver">
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="form-check">
+        <input type="checkbox" id="pFeatured" ${product?.isFeatured ? 'checked' : ''}>
+        <label for="pFeatured" style="margin-bottom:0;text-transform:none;font-size:14px;">Featured Product</label>
+      </div>
+    </div>
+  `;
+  const footer = `
+    <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-primary" onclick="saveProduct('${isEdit ? product._id : ''}')">${isEdit ? 'Save Changes' : 'Create Product'}</button>
+  `;
+  renderModal(isEdit ? 'Edit Product' : 'New Product', body, footer);
+}
+
+async function saveProduct(id) {
+  const payload = {
+    name: $('#pName').value.trim(),
+    description: $('#pDesc').value.trim(),
+    price: parseFloat($('#pPrice').value) || 0,
+    stock: parseInt($('#pStock').value) || 0,
+    category: $('#pCategory').value,
+    images: $('#pImages').value.split('\n').map(s => s.trim()).filter(Boolean),
+    sizes: $('#pSizes').value.split(',').map(s => s.trim()).filter(Boolean),
+    colors: $('#pColors').value.split(',').map(s => s.trim()).filter(Boolean),
+    isFeatured: $('#pFeatured').checked,
+  };
+
+  if (!payload.name || !payload.category) {
+    toast('Name and category are required', 'error');
+    return;
+  }
+
+  try {
+    if (id) {
+      await api(`/products/${id}`, { method: 'PUT', body: JSON.stringify(payload) });
+      toast('Product updated');
+    } else {
+      await api('/products', { method: 'POST', body: JSON.stringify(payload) });
+      toast('Product created');
+    }
+    closeModal();
+    loadProducts();
+  } catch(err) {
+    toast(err.message, 'error');
+  }
+}
+
+async function deleteProduct(id, name) {
+  if (!confirm(`Delete "${name}"? This cannot be undone.`)) return;
+  try {
+    await api(`/products/${id}`, { method: 'DELETE' });
+    toast('Product deleted');
+    loadProducts();
+  } catch(err) {
+    toast(err.message, 'error');
+  }
+}
+
+// ── Orders ────────────────────────────────────────────────
+async function loadOrders() {
+  try {
+    const orders = await api('/orders');
+    const main = document.getElementById('mainContent');
+    main.innerHTML = `
+      <div class="page-header">
+        <h2>Orders</h2>
+        <p>${orders.length} total orders</p>
+      </div>
+
+      <div class="card">
+        <table>
+          <thead>
+            <tr><th>Order</th><th>Customer</th><th>Items</th><th>Total</th><th>Status</th><th>Date</th><th style="text-align:right">Update</th></tr>
+          </thead>
+          <tbody>
+            ${orders.length === 0 ? '<tr><td colspan="7" class="empty">No orders yet</td></tr>' : orders.map(o => `
+              <tr>
+                <td style="font-weight:600;">#${o._id.slice(-6)}</td>
+                <td>
+                  <div style="font-weight:500;">${o.user?.name || 'Unknown'}</div>
+                  <div style="font-size:11px;color:var(--text-sec);">${o.user?.email || ''}</div>
+                </td>
+                <td style="color:var(--text-sec);">${o.items?.length || 0} item(s)</td>
+                <td style="font-weight:600;">${formatPrice(o.totalPrice)}</td>
+                <td>${statusBadge(o.status)}</td>
+                <td style="color:var(--text-sec);">${formatDate(o.createdAt)}</td>
+                <td style="text-align:right;">
+                  <select class="status-select" onchange="updateOrderStatus('${o._id}', this.value)" ${o.status === 'cancelled' || o.status === 'delivered' ? 'disabled' : ''}>
+                    ${['pending','paid','confirmed','shipped','delivered','cancelled'].map(s =>
+                      `<option value="${s}" ${o.status === s ? 'selected' : ''}>${s.charAt(0).toUpperCase() + s.slice(1)}</option>`
+                    ).join('')}
+                  </select>
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    `;
+  } catch(err) {
+    document.getElementById('mainContent').innerHTML = `<div class="empty">Failed to load orders: ${err.message}</div>`;
+  }
+}
+
+async function updateOrderStatus(id, status) {
+  try {
+    await api(`/orders/${id}/status`, { method: 'PUT', body: JSON.stringify({ status }) });
+    toast(`Order updated to ${status}`);
+    loadOrders();
+  } catch(err) {
+    toast(err.message, 'error');
+    loadOrders();
+  }
+}
+
+// ── Categories ────────────────────────────────────────────
+async function loadCategories() {
+  try {
+    const cats = await api('/categories');
+    categories = cats;
+    const main = document.getElementById('mainContent');
+    main.innerHTML = `
+      <div class="page-header" style="display:flex;justify-content:space-between;align-items:center;">
+        <div>
+          <h2>Categories</h2>
+          <p>${cats.length} categories</p>
+        </div>
+        <button class="btn btn-primary" onclick="openCategoryForm()">+ Add Category</button>
+      </div>
+
+      <div class="card">
+        <table>
+          <thead><tr><th>Name</th><th>Created</th><th style="text-align:right">Actions</th></tr></thead>
+          <tbody>
+            ${cats.length === 0 ? '<tr><td colspan="3" class="empty">No categories yet</td></tr>' : cats.map(c => `
+              <tr>
+                <td style="font-weight:500;">${c.name}</td>
+                <td style="color:var(--text-sec);">${formatDate(c.createdAt)}</td>
+                <td style="text-align:right;">
+                  <button class="btn btn-danger btn-sm" onclick="deleteCategory('${c._id}','${c.name.replace(/'/g,"\\'")}')">Delete</button>
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    `;
+  } catch(err) {
+    document.getElementById('mainContent').innerHTML = `<div class="empty">Failed to load categories: ${err.message}</div>`;
+  }
+}
+
+function openCategoryForm() {
+  const body = `
+    <div class="form-group">
+      <label>Category Name</label>
+      <input id="catName" placeholder="e.g. Luxury, Sport, Vintage">
+    </div>
+    <div class="form-group">
+      <label>Image URL (optional)</label>
+      <input id="catImage" placeholder="https://...">
+    </div>
+  `;
+  const footer = `
+    <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-primary" onclick="saveCategory()">Create</button>
+  `;
+  renderModal('New Category', body, footer);
+}
+
+async function saveCategory() {
+  const name = $('#catName').value.trim();
+  const image = $('#catImage').value.trim();
+  if (!name) { toast('Name is required', 'error'); return; }
+  try {
+    await api('/categories', { method: 'POST', body: JSON.stringify({ name, image }) });
+    toast('Category created');
+    closeModal();
+    loadCategories();
+  } catch(err) {
+    toast(err.message, 'error');
+  }
+}
+
+async function deleteCategory(id, name) {
+  if (!confirm(`Delete category "${name}"?`)) return;
+  try {
+    await api(`/categories/${id}`, { method: 'DELETE' });
+    toast('Category deleted');
+    loadCategories();
+  } catch(err) {
+    toast(err.message, 'error');
+  }
+}
+
+// ── Users ─────────────────────────────────────────────────
+async function loadUsers() {
+  try {
+    const users = await api('/users');
+    const main = document.getElementById('mainContent');
+    main.innerHTML = `
+      <div class="page-header">
+        <h2>Customers</h2>
+        <p>${users.length} registered users</p>
+      </div>
+
+      <div class="card">
+        <table>
+          <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>City</th><th>Joined</th></tr></thead>
+          <tbody>
+            ${users.length === 0 ? '<tr><td colspan="5" class="empty">No users yet</td></tr>' : users.map(u => `
+              <tr>
+                <td style="font-weight:500;">${u.name}</td>
+                <td style="color:var(--text-sec);">${u.email}</td>
+                <td style="color:var(--text-sec);">${u.phone || '-'}</td>
+                <td style="color:var(--text-sec);">${u.address?.city || '-'}</td>
+                <td style="color:var(--text-sec);">${formatDate(u.createdAt)}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    `;
+  } catch(err) {
+    document.getElementById('mainContent').innerHTML = `<div class="empty">Failed to load users: ${err.message}</div>`;
+  }
+}
+
+// ── Init ──────────────────────────────────────────────────
+showPage('dashboard');
+</script>
+</body>
+</html>

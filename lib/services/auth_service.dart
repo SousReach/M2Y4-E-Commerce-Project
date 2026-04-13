@@ -23,13 +23,19 @@ class AuthService {
   static Future<Map<String, dynamic>> register(
     String name,
     String email,
-    String password,
-  ) async {
-    final data = await ApiService.post(ApiConfig.register, {
+    String password, {
+    String phone = '',
+    Map<String, String>? address,
+  }) async {
+    final body = <String, dynamic>{
       'name': name,
       'email': email,
       'password': password,
-    });
+    };
+    if (phone.isNotEmpty) body['phone'] = phone;
+    if (address != null) body['address'] = address;
+
+    final data = await ApiService.post(ApiConfig.register, body);
 
     // Save token
     final prefs = await SharedPreferences.getInstance();

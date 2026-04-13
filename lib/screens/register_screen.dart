@@ -18,6 +18,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
+  final _phoneController = TextEditingController();
+  final _streetController = TextEditingController();
+  final _cityController = TextEditingController();
+  final _countryController = TextEditingController();
   bool _obscurePassword = true;
 
   @override
@@ -26,17 +30,37 @@ class _RegisterScreenState extends State<RegisterScreen> {
     _emailController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
+    _phoneController.dispose();
+    _streetController.dispose();
+    _cityController.dispose();
+    _countryController.dispose();
     super.dispose();
   }
 
   Future<void> _register() async {
     if (!_formKey.currentState!.validate()) return;
 
+    final phone = _phoneController.text.trim();
+    final street = _streetController.text.trim();
+    final city = _cityController.text.trim();
+    final country = _countryController.text.trim();
+
+    Map<String, String>? address;
+    if (street.isNotEmpty || city.isNotEmpty || country.isNotEmpty) {
+      address = {
+        'street': street,
+        'city': city,
+        'country': country,
+      };
+    }
+
     final authProvider = context.read<AuthProvider>();
     final success = await authProvider.register(
       _nameController.text.trim(),
       _emailController.text.trim(),
       _passwordController.text,
+      phone: phone,
+      address: address,
     );
 
     if (!mounted) return;
@@ -104,6 +128,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 const SizedBox(height: 16),
                 CustomTextField(
+                  hint: 'Phone Number (optional)',
+                  controller: _phoneController,
+                  keyboardType: TextInputType.phone,
+                  prefixIcon: const Icon(Icons.phone_outlined, size: 20),
+                ),
+                const SizedBox(height: 16),
+                CustomTextField(
                   hint: 'Password',
                   controller: _passwordController,
                   obscureText: _obscurePassword,
@@ -139,6 +170,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     return null;
                   },
                 ),
+                const SizedBox(height: 24),
+
+                // Address section (optional, collapsible)
+                _buildAddressSection(),
+
                 const SizedBox(height: 32),
                 Consumer<AuthProvider>(
                   builder: (context, auth, _) => CustomButton(
@@ -172,6 +208,58 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildAddressSection() {
+    return Theme(
+      data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+      child: ExpansionTile(
+        tilePadding: EdgeInsets.zero,
+        childrenPadding: EdgeInsets.zero,
+        title: Row(
+          children: [
+            Icon(Icons.location_on_outlined, size: 20, color: AppTheme.textSecondary),
+            const SizedBox(width: 8),
+            Text(
+              'Address (optional)',
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: AppTheme.textSecondary,
+              ),
+            ),
+          ],
+        ),
+        children: [
+          const SizedBox(height: 8),
+          CustomTextField(
+            hint: 'Street Address',
+            controller: _streetController,
+            prefixIcon: const Icon(Icons.home_outlined, size: 20),
+          ),
+          const SizedBox(height: 12),
+          Row(
+            children: [
+              Expanded(
+                child: CustomTextField(
+                  hint: 'City',
+                  controller: _cityController,
+                  prefixIcon: const Icon(Icons.location_city_outlined, size: 20),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: CustomTextField(
+                  hint: 'Country',
+                  controller: _countryController,
+                  prefixIcon: const Icon(Icons.flag_outlined, size: 20),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

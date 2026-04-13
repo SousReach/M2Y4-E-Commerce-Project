@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../config/theme.dart';
+import '../config/api_config.dart';
 import '../utils/price_formatter.dart';
+import '../models/product.dart';
+import '../services/api_service.dart';
 import '../providers/product_provider.dart';
 import '../providers/cart_provider.dart';
 import '../providers/wishlist_provider.dart';
@@ -18,14 +21,53 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   String? _selectedSize;
   String? _selectedColor;
   bool _addingToCart = false;
+  String? _loadedProductId;
+
+  // Recommendations
+  List<Product> _recommendations = [];
+
+  // Reviews
+  List<dynamic> _reviews = [];
+  bool _loadingReviews = true;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     final productId = ModalRoute.of(context)?.settings.arguments as String?;
-    if (productId != null) {
+    if (productId != null && productId != _loadedProductId) {
+      _loadedProductId = productId;
+      _selectedSize = null;
+      _selectedColor = null;
       context.read<ProductProvider>().loadProductById(productId);
+      _loadReviews(productId);
     }
+  }
+
+  Future<void> _loadReviews(String productId) async {
+    setState(() => _loadingReviews = true);
+    try {
+      final data = await ApiService.get(
+        '${ApiConfig.baseUrl}/reviews/product/$productId',
+      );
+      if (!mounted) return;
+      setState(() {
+        _reviews = data as List;
+        _loadingReviews = false;
+      });
+    } catch (_) {
+      if (!mounted) return;
+      setState(() => _loadingReviews = false);
+    }
+  }
+
+  void _loadRecommendations(Product product) {
+    // Filter products from same category, excluding current product
+    final provider = context.read<ProductProvider>();
+    final all = provider.products;
+    _recommendations = all
+        .where((p) => p.categoryId == product.categoryId && p.id != product.id)
+        .take(6)
+        .toList();
   }
 
   @override
@@ -267,6 +309,20 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           ],
                         ),
                       ),
+
+                      // ── Rating Summary ──────────────────────
+                      _buildRatingSummary(),
+
+                      // ── You May Also Like ───────────────────
+                      Builder(
+                        builder: (_) {
+                          _loadRecommendations(product);
+                          if (_recommendations.isEmpty) {
+                            return const SizedBox.shrink();
+                          }
+                          return _buildRecommendations();
+                        },
+                      ),
                     ],
                   ),
                 ),
@@ -325,6 +381,243 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             ],
           );
         },
+      ),
+    );
+  }
+
+  // ── Rating Summary ────────────────────────────────────────
+  Widget _buildRatingSummary() {
+    if (_loadingReviews) {
+      return const Padding(
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+        child: Center(
+          child: SizedBox(
+            width: 20,
+            height: 20,
+            child: CircularProgressIndicator(strokeWidth: 2),
+          ),
+        ),
+      );
+    }
+    if (_reviews.isEmpty) return const SizedBox.shrink();
+
+    // Calculate breakdown
+    final counts = {5: 0, 4: 0, 3: 0, 2: 0, 1: 0};
+    double total = 0;
+    for (final r in _reviews) {
+      final rating = (r['rating'] ?? 0) as int;
+      counts[rating] = (counts[rating] ?? 0) + 1;
+      total += rating;
+    }
+    final avg = total / _reviews.length;
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 8, 20, 0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Divider(height: 32),
+          const Text(
+            'Ratings & Reviews',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+          ),
+          const SizedBox(height: 16),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Average score
+              Column(
+                children: [
+                  Text(
+                    avg.toStringAsFixed(1),
+                    style: const TextStyle(
+                      fontSize: 36,
+                      fontWeight: FontWeight.w700,
+                      color: AppTheme.primary,
+                    ),
+                  ),
+                  Row(
+                    children: List.generate(5, (i) {
+                      return Icon(
+                        i < avg.round() ? Icons.star : Icons.star_border,
+                        size: 16,
+                        color: AppTheme.accent,
+                      );
+                    }),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    '${_reviews.length} review${_reviews.length == 1 ? '' : 's'}',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: AppTheme.textSecondary,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(width: 24),
+              // Star breakdown
+              Expanded(
+                child: Column(
+                  children: [
+                    for (int star = 5; star >= 1; star--)
+                      _buildStarRow(star, counts[star]!, _reviews.length),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildStarRow(int star, int count, int total) {
+    final fraction = total > 0 ? count / total : 0.0;
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 2),
+      child: Row(
+        children: [
+          Text(
+            '$star',
+            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+          ),
+          const SizedBox(width: 4),
+          const Icon(Icons.star, size: 12, color: AppTheme.accent),
+          const SizedBox(width: 8),
+          Expanded(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(4),
+              child: LinearProgressIndicator(
+                value: fraction,
+                minHeight: 6,
+                backgroundColor: Colors.grey.shade200,
+                color: AppTheme.accent,
+              ),
+            ),
+          ),
+          const SizedBox(width: 8),
+          SizedBox(
+            width: 20,
+            child: Text(
+              '$count',
+              textAlign: TextAlign.right,
+              style: TextStyle(
+                fontSize: 11,
+                color: AppTheme.textSecondary,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ── You May Also Like ─────────────────────────────────────
+  Widget _buildRecommendations() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0, 8, 0, 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Divider(height: 32),
+          ),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Text(
+              'You May Also Like',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+            ),
+          ),
+          const SizedBox(height: 12),
+          SizedBox(
+            height: 220,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              itemCount: _recommendations.length,
+              itemBuilder: (context, index) {
+                final rec = _recommendations[index];
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      '/product-detail',
+                      arguments: rec.id,
+                    );
+                  },
+                  child: Container(
+                    width: 150,
+                    margin: const EdgeInsets.only(right: 12),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.06),
+                          blurRadius: 8,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ClipRRect(
+                          borderRadius: const BorderRadius.vertical(
+                            top: Radius.circular(12),
+                          ),
+                          child: rec.images.isNotEmpty
+                              ? CachedNetworkImage(
+                                  imageUrl: rec.images[0],
+                                  height: 130,
+                                  width: 150,
+                                  fit: BoxFit.cover,
+                                )
+                              : Container(
+                                  height: 130,
+                                  width: 150,
+                                  color: Colors.grey[100],
+                                  child: const Icon(Icons.image),
+                                ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                rec.name,
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                formatPrice(rec.price),
+                                style: const TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppTheme.primary,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

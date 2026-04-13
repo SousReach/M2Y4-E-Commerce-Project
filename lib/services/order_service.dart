@@ -25,4 +25,13 @@ class OrderService {
     final data = await ApiService.get(ApiConfig.orderById(id), auth: true);
     return Order.fromJson(data);
   }
+
+  static Future<Order> cancelOrder(String id) async {
+    final data = await ApiService.put(
+      ApiConfig.orderCancel(id),
+      {},
+      auth: true,
+    );
+    return Order.fromJson(data);
+  }
 }
