@@ -14,6 +14,8 @@ import '../widgets/product_card.dart';
 import '../widgets/category_card.dart';
 import '../utils/price_formatter.dart';
 import '../services/search_history_service.dart';
+import '../services/recently_viewed_service.dart';
+import '../services/notification_service.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -22,7 +24,7 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   int _currentIndex = 0;
   final PageController _bannerController = PageController();
   Timer? _bannerTimer;
@@ -31,6 +33,9 @@ class _HomeScreenState extends State<HomeScreen> {
   // Search history
   List<String> _searchHistory = [];
   final _searchController = TextEditingController();
+
+  // Recently viewed
+  List<Map<String, dynamic>> _recentlyViewed = [];
 
   final List<_BannerData> _banners = const [
     _BannerData(
@@ -56,6 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<ProductProvider>().loadCategories();
       context.read<ProductProvider>().loadFeaturedProducts();
@@ -65,20 +71,37 @@ class _HomeScreenState extends State<HomeScreen> {
     });
     _startBannerAutoScroll();
     _loadSearchHistory();
+    _loadRecentlyViewed();
   }
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _bannerTimer?.cancel();
     _bannerController.dispose();
     _searchController.dispose();
     super.dispose();
   }
 
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      // Check for order status changes whenever the user returns to the app
+      NotificationService.checkOrderStatusChanges();
+      _loadRecentlyViewed();
+    }
+  }
+
   Future<void> _loadSearchHistory() async {
     final history = await SearchHistoryService.getHistory();
     if (!mounted) return;
     setState(() => _searchHistory = history);
+  }
+
+  Future<void> _loadRecentlyViewed() async {
+    final items = await RecentlyViewedService.get();
+    if (!mounted) return;
+    setState(() => _recentlyViewed = items);
   }
 
   Future<void> _performSearch(String query) async {
@@ -359,6 +382,134 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
             const SizedBox(height: 24),
+
+            // Recently Viewed
+            if (_recentlyViewed.isNotEmpty) ...[
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      'Recently Viewed',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () async {
+                        await RecentlyViewedService.clear();
+                        _loadRecentlyViewed();
+                      },
+                      child: Text(
+                        'Clear',
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: AppTheme.textSecondary,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 12),
+              SizedBox(
+                height: 190,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  padding: const EdgeInsets.only(left: 20),
+                  itemCount: _recentlyViewed.length,
+                  itemBuilder: (context, index) {
+                    final item = _recentlyViewed[index];
+                    return GestureDetector(
+                      onTap: () => Navigator.pushNamed(
+                        context,
+                        '/product-detail',
+                        arguments: item['id'],
+                      ).then((_) => _loadRecentlyViewed()),
+                      child: Container(
+                        width: 130,
+                        margin: const EdgeInsets.only(right: 12),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withValues(alpha: 0.05),
+                              blurRadius: 8,
+                              offset: const Offset(0, 2),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ClipRRect(
+                              borderRadius: const BorderRadius.vertical(
+                                top: Radius.circular(12),
+                              ),
+                              child: item['image'] != ''
+                                  ? CachedNetworkImage(
+                                      imageUrl: item['image'] as String,
+                                      height: 110,
+                                      width: 130,
+                                      fit: BoxFit.cover,
+                                      errorWidget: (_, __, ___) => Container(
+                                        height: 110,
+                                        color: Colors.grey[100],
+                                        child: const Icon(
+                                          Icons.watch,
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                    )
+                                  : Container(
+                                      height: 110,
+                                      color: Colors.grey[100],
+                                      child: const Icon(
+                                        Icons.watch,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    item['name'] as String,
+                                    style: const TextStyle(
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    formatPrice(
+                                      (item['price'] as num).toDouble(),
+                                    ),
+                                    style: const TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w700,
+                                      color: AppTheme.primary,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              const SizedBox(height: 24),
+            ],
           ],
         ),
       ),

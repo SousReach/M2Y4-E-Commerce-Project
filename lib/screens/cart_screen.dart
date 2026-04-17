@@ -4,6 +4,7 @@ import '../config/theme.dart';
 import '../utils/price_formatter.dart';
 import '../providers/cart_provider.dart';
 import '../widgets/cart_item_tile.dart';
+import '../widgets/empty_state.dart';
 
 class CartScreen extends StatelessWidget {
   final bool embedded;
@@ -17,27 +18,13 @@ class CartScreen extends StatelessWidget {
           return const Center(child: CircularProgressIndicator());
         }
         if (cart.items.isEmpty) {
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.shopping_cart_outlined,
-                  size: 64,
-                  color: Colors.grey[300],
-                ),
-                const SizedBox(height: 16),
-                const Text(
-                  'Your cart is empty',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  'Browse products and add items to your cart',
-                  style: TextStyle(color: AppTheme.textSecondary),
-                ),
-              ],
-            ),
+          return EmptyState(
+            icon: Icons.shopping_bag_outlined,
+            title: 'Your cart is empty',
+            subtitle:
+                'Looks like you haven\'t added\nanything yet. Start browsing!',
+            actionLabel: 'Browse Watches',
+            onAction: () => Navigator.pushNamed(context, '/products'),
           );
         }
         return Column(

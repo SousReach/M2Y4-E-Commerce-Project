@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../config/theme.dart';
 import '../utils/price_formatter.dart';
 import '../providers/order_provider.dart';
+import '../widgets/empty_state.dart';
 
 class OrderHistoryScreen extends StatefulWidget {
   const OrderHistoryScreen({super.key});
@@ -45,27 +46,13 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
             return const Center(child: CircularProgressIndicator());
           }
           if (provider.orders.isEmpty) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.receipt_long_outlined,
-                    size: 64,
-                    color: Colors.grey[300],
-                  ),
-                  const SizedBox(height: 16),
-                  const Text(
-                    'No orders yet',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Start shopping to see your orders here',
-                    style: TextStyle(color: AppTheme.textSecondary),
-                  ),
-                ],
-              ),
+            return EmptyState(
+              icon: Icons.receipt_long_outlined,
+              title: 'No orders yet',
+              subtitle:
+                  'Your order history will appear\nhere once you make a purchase.',
+              actionLabel: 'Start Shopping',
+              onAction: () => Navigator.pushReplacementNamed(context, '/home'),
             );
           }
           return ListView.builder(

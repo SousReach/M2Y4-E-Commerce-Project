@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/order.dart';
 import '../services/order_service.dart';
+import '../services/notification_service.dart';
 
 class OrderProvider extends ChangeNotifier {
   List<Order> _orders = [];
@@ -18,6 +19,7 @@ class OrderProvider extends ChangeNotifier {
 
     try {
       _orders = await OrderService.getOrders();
+      NotificationService.seedCache(_orders); // won't overwrite if already seeded
       _isLoading = false;
       notifyListeners();
     } catch (e) {

@@ -5,6 +5,7 @@ import '../config/theme.dart';
 import '../utils/price_formatter.dart';
 import '../providers/wishlist_provider.dart';
 import '../providers/cart_provider.dart';
+import '../widgets/empty_state.dart';
 
 class WishlistScreen extends StatefulWidget {
   const WishlistScreen({super.key});
@@ -39,7 +40,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
             child: ListView.separated(
               padding: const EdgeInsets.all(16),
               itemCount: wishlist.products.length,
-              separatorBuilder: (_, __) => const SizedBox(height: 12),
+              separatorBuilder: (_, _) => const SizedBox(height: 12),
               itemBuilder: (context, index) {
                 final product = wishlist.products[index];
                 return _buildWishlistItem(context, wishlist, product);
@@ -52,35 +53,14 @@ class _WishlistScreenState extends State<WishlistScreen> {
   }
 
   Widget _buildEmpty(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.favorite_border,
-            size: 72,
-            color: Colors.grey[300],
-          ),
-          const SizedBox(height: 16),
-          const Text(
-            'Your wishlist is empty',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'Save items you love for later',
-            style: TextStyle(color: AppTheme.textSecondary),
-          ),
-          const SizedBox(height: 24),
-          OutlinedButton(
-            onPressed: () => Navigator.pushReplacementNamed(context, '/home'),
-            style: OutlinedButton.styleFrom(
-              minimumSize: const Size(180, 44),
-            ),
-            child: const Text('Browse Products'),
-          ),
-        ],
-      ),
+    return EmptyState(
+      icon: Icons.favorite_border_rounded,
+      title: 'Nothing saved yet',
+      subtitle:
+          'Tap the heart on any product\nto save it here for later.',
+      actionLabel: 'Discover Watches',
+      onAction: () => Navigator.pushReplacementNamed(context, '/home'),
+      iconColor: AppTheme.error,
     );
   }
 

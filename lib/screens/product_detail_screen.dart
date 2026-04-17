@@ -6,6 +6,7 @@ import '../config/api_config.dart';
 import '../utils/price_formatter.dart';
 import '../models/product.dart';
 import '../services/api_service.dart';
+import '../services/recently_viewed_service.dart';
 import '../providers/product_provider.dart';
 import '../providers/cart_provider.dart';
 import '../providers/wishlist_provider.dart';
@@ -22,6 +23,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   String? _selectedColor;
   bool _addingToCart = false;
   String? _loadedProductId;
+  String? _recordedProductId;
 
   // Recommendations
   List<Product> _recommendations = [];
@@ -60,6 +62,13 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     }
   }
 
+  void _recordView(Product product) {
+    if (_recordedProductId != product.id) {
+      _recordedProductId = product.id;
+      RecentlyViewedService.add(product); // fire and forget
+    }
+  }
+
   void _loadRecommendations(Product product) {
     // Filter products from same category, excluding current product
     final provider = context.read<ProductProvider>();
@@ -80,6 +89,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           }
 
           final product = provider.selectedProduct!;
+          _recordView(product);
           _selectedSize ??= product.sizes.isNotEmpty ? product.sizes[0] : null;
           _selectedColor ??= product.colors.isNotEmpty
               ? product.colors[0]
